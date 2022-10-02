@@ -1,0 +1,11 @@
+{
+  "name": "@lgpd/shared",
+  "version": "1.0.0",
+  "types": "./dist/index.d.ts",
+  "module": "./dist/index.js",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^4.8.4"
+  }
+}
