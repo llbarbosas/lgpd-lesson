@@ -9,7 +9,7 @@
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.NotOk = exports.Ok = void 0;
+    exports.notOk = exports.ok = exports.NotOk = exports.Ok = void 0;
     class Ok {
         value;
         constructor(value) {
@@ -20,6 +20,12 @@
         }
         isOk() {
             return true;
+        }
+        mapOk(fn) {
+            return new Ok(fn(this.value));
+        }
+        mapNotOk(_) {
+            return this;
         }
     }
     exports.Ok = Ok;
@@ -34,6 +40,17 @@
         isOk() {
             return false;
         }
+        mapOk(_) {
+            return this;
+        }
+        mapNotOk(fn) {
+            return new NotOk(fn(this.value));
+        }
     }
     exports.NotOk = NotOk;
+    const ok = (value) => new Ok(value);
+    exports.ok = ok;
+    const notOk = (value) => new NotOk(value);
+    exports.notOk = notOk;
 });
+//# sourceMappingURL=Result.js.map

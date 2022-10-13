@@ -24,23 +24,34 @@
             return new Response(response.status, response.body, headers);
         }
         static ok(body) {
-            return statusResponse(200, body);
+            return new Response(200, body);
         }
         static created(body) {
-            return statusResponse(201, body);
+            return new Response(201, body);
+        }
+        static fromResult(result) {
+            if (result.isNotOk()) {
+                return Response.serverError(result.value.message);
+            }
+            return new Response(200, result.value);
+        }
+        static async fromResultP(result) {
+            return Response.fromResult(await result);
+        }
+        static fromError(error) {
+            return new Response(error.status, {
+                error: error.name,
+                message: error.message,
+                error_code: error.errorCode,
+            });
         }
         static notFound(message, errorCode) {
-            return fromError(new HTTP_errors_1.NotFoundError(message, errorCode));
+            return Response.fromError(new HTTP_errors_1.NotFoundError(message, errorCode));
         }
         static serverError(message, errorCode) {
-            return fromError(new HTTP_errors_1.InternalServerError(message, errorCode));
+            return Response.fromError(new HTTP_errors_1.InternalServerError(message, errorCode));
         }
     }
     exports.Response = Response;
-    const statusResponse = (status, body) => new Response(status, body);
-    const fromError = (error) => statusResponse(error.status, {
-        error: error.name,
-        message: error.message,
-        error_code: error.errorCode,
-    });
 });
+//# sourceMappingURL=HTTP.js.map

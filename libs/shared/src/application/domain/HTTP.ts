@@ -1,4 +1,4 @@
-import { PartialRecord, KeysMatching } from "../../core";
+import { PartialRecord, KeysMatching, Result } from "../../core";
 import { HTTPError, InternalServerError, NotFoundError } from "./HTTP.errors";
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS";
@@ -27,34 +27,46 @@ export class Response {
   }
 
   static ok(body: Response["body"]): Response {
-    return statusResponse(200, body);
+    return new Response(200, body);
   }
 
   static created(body: Response["body"]): Response {
-    return statusResponse(201, body);
+    return new Response(201, body);
+  }
+
+  static fromResult(result: Result<unknown>): Response {
+    if (result.isNotOk()) {
+      return Response.serverError(result.value.message);
+    }
+
+    return new Response(200, result.value);
+  }
+
+  static async fromResultP(
+    result: Promise<Result<unknown>>
+  ): Promise<Response> {
+    return Response.fromResult(await result);
+  }
+
+  static fromError(error: HTTPError): Response {
+    return new Response(error.status, {
+      error: error.name,
+      message: error.message,
+      error_code: error.errorCode,
+    });
   }
 
   static notFound(
     message: HTTPError["message"],
     errorCode?: HTTPError["errorCode"]
   ): Response {
-    return fromError(new NotFoundError(message, errorCode));
+    return Response.fromError(new NotFoundError(message, errorCode));
   }
 
   static serverError(
     message: HTTPError["message"],
     errorCode?: HTTPError["errorCode"]
   ): Response {
-    return fromError(new InternalServerError(message, errorCode));
+    return Response.fromError(new InternalServerError(message, errorCode));
   }
 }
-
-const statusResponse = (status: Response["status"], body: Response["body"]) =>
-  new Response(status, body);
-
-const fromError = (error: HTTPError) =>
-  statusResponse(error.status, {
-    error: error.name,
-    message: error.message,
-    error_code: error.errorCode,
-  });

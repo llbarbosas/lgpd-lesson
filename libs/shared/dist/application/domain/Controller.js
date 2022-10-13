@@ -20,3 +20,4 @@
     exports.Delete = buildRouteDecorator("DELETE");
     exports.Options = buildRouteDecorator("OPTIONS");
 });
+//# sourceMappingURL=Controller.js.map

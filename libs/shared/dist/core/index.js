@@ -18,10 +18,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./domain"], factory);
+        define(["require", "exports", "./domain", "./entity"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     __exportStar(require("./domain"), exports);
+    __exportStar(require("./entity"), exports);
 });
+//# sourceMappingURL=index.js.map
