@@ -5,31 +5,45 @@ export type JWT = string;
 
 export type AccessToken = JWT;
 
-export class AccessTokenData {
-  constructor(
-    public jwtid: string,
-    public issuer: Client["id"],
-    public scope: string[],
-    public expiresIn: number,
-    public issuedAt: number,
-    public subject?: User["id"]
-  ) {}
+export type AccessTokenData = {
+  jwtid: string;
+  issuer: Client["id"];
+  scope: string[];
+  expiresIn: number;
+  issuedAt: number;
+  subject?: User["id"];
+};
 
-  fromJWTClaims({
+export const AccessTokenData = {
+  fromJWTClaims: ({
     jti: jwtid,
     iss: issuer,
     exp: expiresIn,
     iat: issuedAt,
     sub: subject,
     scope,
-  }: any): AccessTokenData {
-    return new AccessTokenData(
-      jwtid,
-      issuer,
-      expiresIn,
-      issuedAt,
-      scope.split(" "),
-      subject
-    );
-  }
-}
+  }: any): AccessTokenData => ({
+    jwtid,
+    issuer,
+    expiresIn,
+    issuedAt,
+    scope: scope.split(" "),
+    subject,
+  }),
+
+  toJWTClaims: ({
+    jwtid: jti,
+    issuer: iss,
+    expiresIn: exp,
+    issuedAt: iat,
+    subject: sub,
+    scope,
+  }: AccessTokenData) => ({
+    jti,
+    iss,
+    exp,
+    iat,
+    sub,
+    scope: scope.join(" "),
+  }),
+};

@@ -18,13 +18,12 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./Controller", "./DependencyInjection", "./HTTP", "./HTTP.errors"], factory);
+        define(["require", "exports", "./Controller", "./HTTP", "./HTTP.errors"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     __exportStar(require("./Controller"), exports);
-    __exportStar(require("./DependencyInjection"), exports);
     __exportStar(require("./HTTP"), exports);
     __exportStar(require("./HTTP.errors"), exports);
 });

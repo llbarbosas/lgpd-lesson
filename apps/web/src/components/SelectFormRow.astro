@@ -1,0 +1,25 @@
+---
+export interface Props {
+  label: string;
+  name: string;
+}
+
+const { label, name } = Astro.props;
+---
+
+<div class="form-row">
+  <label class="font-semibold">{label}</label>
+  <select
+    name={name}
+    class="block w-full py-2 px-4 bg-white border border-gray-200"
+  >
+    <option value="" selected>Selecione</option>
+    <slot />
+  </select>
+</div>
+
+<style>
+  .form-row {
+    @apply flex flex-col gap-2 p-4 even:bg-gray-100;
+  }
+</style>

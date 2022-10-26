@@ -1,0 +1,360 @@
+---
+import SelectFormRow from "../components/SelectFormRow.astro";
+import Layout from "../layouts/Layout.astro";
+import _ from "lodash";
+
+const questions = [
+  {
+    name: "civil_state",
+    label: "Qual é o seu estado civil?",
+    options: [
+      {
+        value: "single",
+        label: "Casado(a)/União estável",
+      },
+      {
+        value: "single",
+        label: "Solteiro(a)",
+      },
+      {
+        value: "single",
+        label: "Viúvo(a)",
+      },
+      {
+        value: "single",
+        label: "Separado(a)/Desquitado(a)",
+      },
+      {
+        value: "single",
+        label: "Outro",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label: "Qual a sua cor/etnia?",
+    options: [
+      {
+        value: "single",
+        label: "Amarela",
+      },
+      {
+        value: "single",
+        label: "Branca",
+      },
+      {
+        value: "single",
+        label: "Indígena",
+      },
+      {
+        value: "single",
+        label: "Parda",
+      },
+      {
+        value: "single",
+        label: "Prata",
+      },
+      {
+        value: "single",
+        label: "Outra",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label: "Você possui filhos?",
+    options: [
+      {
+        value: "single",
+        label: "Não",
+      },
+      {
+        value: "single",
+        label: "1",
+      },
+      {
+        value: "single",
+        label: "2",
+      },
+      {
+        value: "single",
+        label: "3",
+      },
+      {
+        value: "single",
+        label: "4 ou mais",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label:
+      "Você foi diagnosticado com algum tipo de Deficiência, espectro do autismo ou Altas Habilidades?",
+    options: [
+      {
+        value: "single",
+        label: "Não",
+      },
+      {
+        value: "single",
+        label: "Auditiva",
+      },
+      {
+        value: "single",
+        label: "Visual",
+      },
+      {
+        value: "single",
+        label: "Locomotiva",
+      },
+      {
+        value: "single",
+        label: "Transtorno Espectro Autista",
+      },
+      {
+        value: "single",
+        label: "Altas Habilidades",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label: "Você mudou de cidade para cursar a UFMS?",
+    options: [
+      {
+        value: "single",
+        label: "Sim",
+      },
+      {
+        value: "single",
+        label: "Não",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label: "Se sim, de qual estado?",
+    options: [
+      {
+        value: "single",
+        label: "Nenhum",
+      },
+      {
+        value: "single",
+        label: "Mato Grosso do Sul",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label: "Você vem a UFMS com qual meio de transporte?",
+    options: [
+      {
+        value: "single",
+        label: "Veículo próprio",
+      },
+      {
+        value: "single",
+        label: "Transporte público (ônibus)",
+      },
+      {
+        value: "single",
+        label: "Carona / a pé",
+      },
+      {
+        value: "single",
+        label: "Transporte privado (taxi ou apps de mobilidade urbana, etc.",
+      },
+      {
+        value: "single",
+        label: "Outro",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label: "Qual é a sua situação atual de moradia?",
+    options: [
+      {
+        value: "single",
+        label: "Sozinho",
+      },
+      {
+        value: "single",
+        label: "Com a família/cônjuge/companheiro(a)",
+      },
+      {
+        value: "single",
+        label: "Com amigos",
+      },
+      {
+        value: "single",
+        label: "Outra",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label: "Você trabalha?",
+    options: [
+      {
+        value: "single",
+        label: "Sim",
+      },
+      {
+        value: "single",
+        label: "Não",
+      },
+    ],
+  },
+
+  {
+    name: "civil_state",
+    label: "Você recebe apoio financeiro da sua família ou amigos?",
+    options: [
+      {
+        value: "single",
+        label: "Sim",
+      },
+      {
+        value: "single",
+        label: "Não",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label:
+      "Qual a renda total da sua família, com a soma de todas as rendas das pessoas da sua família?",
+    options: [
+      {
+        value: "single",
+        label: "Menos de 1 salário mínimo",
+      },
+      {
+        value: "single",
+        label: "Entre 1 e 2 salários mínimos",
+      },
+      {
+        value: "single",
+        label: "Entre 2 e 4 salários mínimos",
+      },
+      {
+        value: "single",
+        label: "Mais de 4 salários mínimos",
+      },
+    ],
+  },
+  {
+    name: "civil_state",
+    label:
+      "Com você, quantas pessoas formam sua família (pais, responsáveis e irmãos) e dependem da soma de renda do item anterior?",
+    options: _.range(1, 16).map((i) => ({ value: `${i}`, label: i })),
+  },
+  {
+    name: "civil_state",
+    label:
+      "Você tem o Cadastro Único (CadÚnico) do Governo Federal? (Para concorrer aos auxílios estudantis e o benefício no Restaurante Universitário)",
+    options: [
+      {
+        value: "single",
+        label: "Sim",
+      },
+      {
+        value: "single",
+        label: "Não",
+      },
+    ],
+  },
+];
+---
+
+<Layout title="Sistema Acadêmico">
+  <header class="w-screen bg-sky-500 flex justify-between items-center">
+    <div class="px-4 py-6 bg-sky-600 w-fit">
+      <img
+        class="w-[200px]"
+        draggable="false"
+        src="siscad_logo.png"
+        alt="siscad logo"
+      />
+    </div>
+    <div class="flex items-center text-white">
+      <button class="hover:bg-sky-600 h-fit px-6 py-4"
+        ><i class="bi bi-envelope"></i>
+      </button>
+      <div
+        class="relative group select-none hover:bg-sky-600 h-fit px-6 py-4 flex items-center gap-2"
+      >
+        Estudante da Silva <i class="bi bi-person-fill"></i>
+        <div
+          class="hidden group-hover:flex justify-end absolute top-full left-0 w-full p-4 bg-white"
+        >
+          <button class="bg-sky-500 hover:bg-sky-600 px-4 py-2 rounded"
+            >Sair</button
+          >
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="min-h-screen w-screen bg-[#ecf0f5] flex justify-center">
+    <div class="flex flex-col gap-10 p-10">
+      <h2 class="text-2xl font-medium">Perfil do Estudante</h2>
+      <div>
+        <p><b>Nome:</b> ESTUDANTE DA SILVA</p>
+        <p><b>CPF:</b> 000.000.000-00</p>
+      </div>
+
+      <div class="bg-white rounded-md w-[700px]">
+        <header class="pb-6 p-4 border-b-2 border-blue-500">
+          <h1 class="text-3xl">Perfil do Estudante 2022/2</h1>
+        </header>
+
+        <form class="text-sm">
+          <div class="form-row">
+            <h3 class="uppercase">Dados pessoais</h3>
+          </div>
+          <div class="form-row">
+            <p>
+              Conheça a Política de Privacidade e Proteção de Dados no âmbito da
+              Fundação Universidade Federal de Mato Grosso do Sul (UFMS)
+              publicada no
+              <a
+                class="text-blue-500"
+                href="https://boletimoficial.ufms.br/bse/publicacao?id=427333"
+                >boletim oficial da UFMS</a
+              >
+            </p>
+          </div>
+
+          {
+            questions.map((question, i) => (
+              <SelectFormRow
+                name={question.name}
+                label={`${i + 1}. ${question.label}`}
+              >
+                {question.options.map((option) => (
+                  <option value={option.value}>{option.label}</option>
+                ))}
+              </SelectFormRow>
+            ))
+          }
+
+          <div class="p-4 flex justify-end">
+            <button
+              type="submit"
+              class="py-2 px-6 bg-blue-500 hover:bg-blue-600 rounded-sm text-white font-semibold"
+              >Finalizar</button
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .form-row {
+    @apply flex flex-col gap-2 p-4 even:bg-gray-100;
+  }
+</style>

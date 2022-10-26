@@ -1,0 +1,55 @@
+---
+import TextInput from "../components/TextInput.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Sistema Acadêmico">
+  <header
+    class="w-screen bg-[#313233] px-8 py-1 text-white text-sm font-light select-none"
+  >
+    <span class="flex gap-2"
+      ><i class="bi bi-bank"></i> Universidade Exemplar de Mato Grosso do Sul</span
+    >
+  </header>
+  <main class="min-h-screen w-screen login-background flex justify-center">
+    <div class="flex flex-col items-center gap-10 p-10">
+      <img
+        class="w-[250px]"
+        draggable="false"
+        src="siscad_logo.png"
+        alt="siscad logo"
+      />
+      <div
+        class="flex flex-col gap-4 bg-white rounded-md w-[400px] shadow-lg p-10"
+      >
+        <TextInput
+          name="username"
+          icon="bi-person-fill"
+          placeholder="Passaporte UFMS"
+        />
+        <TextInput
+          name="password"
+          type="password"
+          icon="bi-lock-fill"
+          placeholder="Senha"
+        />
+        <div>
+          <button
+            class="rounded text-white text-xl font-semibold uppercase w-full p-4 bg-blue-400 hover:bg-blue-500"
+            >Acessar</button
+          >
+          <a class="flex gap-2 text-sm text-blue-600"
+            ><i class="bi bi-key-fill"></i>Esqueci minha senha</a
+          >
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .login-background {
+    background-image: url("login_background.jpg");
+    background-size: cover;
+  }
+</style>

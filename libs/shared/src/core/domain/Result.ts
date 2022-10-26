@@ -42,3 +42,11 @@ export class NotOk<N> {
 
 export const ok = <O>(value: O) => new Ok(value);
 export const notOk = <N>(value: N) => new NotOk(value);
+
+export const fromThrowable = <T>(fn: () => T): Result<T> => {
+  try {
+    return ok(fn());
+  } catch (err) {
+    return notOk(err instanceof Error ? err : new Error(String(err)));
+  }
+};

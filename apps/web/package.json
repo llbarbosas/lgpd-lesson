@@ -1,0 +1,22 @@
+{
+  "name": "@lgpd-lesson/web",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^2.1.1",
+    "astro": "^1.5.3",
+    "lodash": "^4.17.21",
+    "tailwindcss": "^3.0.24"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.186"
+  }
+}

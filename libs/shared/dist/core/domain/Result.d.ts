@@ -17,3 +17,4 @@ export declare class NotOk<N> {
 }
 export declare const ok: <O>(value: O) => Ok<O>;
 export declare const notOk: <N>(value: N) => NotOk<N>;
+export declare const fromThrowable: <T>(fn: () => T) => Result<T, Error>;
