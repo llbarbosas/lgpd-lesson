@@ -1,11 +1,11 @@
 import { Client, UseCase, Result, notOk } from "@lgpd-lesson/shared";
-import { AuthorizationScopeRepository, ClientRepository } from "../../data";
+import { AuthorizationScopeRepository, ClientRepository } from "@core/data";
 import { GenerateToken } from "./GenerateToken";
 
 type Properties = {
   refreshToken: string;
   clientId: Client["id"];
-  state: string;
+  state?: string;
   scope: string;
   responseType: "code";
   codeChallengeMethod: "S256";

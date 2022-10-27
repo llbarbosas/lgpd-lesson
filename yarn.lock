@@ -6382,6 +6382,15 @@ ts-pattern@^4.0.1:
   resolved "https://registry.yarnpkg.com/ts-pattern/-/ts-pattern-4.0.5.tgz#8e87db265b890ddb0dfc10deda36568296ebd5c3"
   integrity sha512-Bq44KCEt7JVaNLa148mBCJkcQf4l7jtLEBDuDdeuLynWDA+1a60P4D0rMkqSM9mOKLQbIWUddE9h3XKyKwBeqA==
 
+tsconfig-paths@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/tsconfig-paths/-/tsconfig-paths-4.1.0.tgz#f8ef7d467f08ae3a695335bf1ece088c5538d2c1"
+  integrity sha512-AHx4Euop/dXFC+Vx589alFba8QItjF+8hf8LtmuiCwHyI4rHXQtOOENaM8kvYf5fR0dRChy3wzWIZ9WbB7FWow==
+  dependencies:
+    json5 "^2.2.1"
+    minimist "^1.2.6"
+    strip-bom "^3.0.0"
+
 tsconfig-resolver@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/tsconfig-resolver/-/tsconfig-resolver-3.0.1.tgz#c9e62e328ecfbeaae4a4f1131a92cdbed12350c4"

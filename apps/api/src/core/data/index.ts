@@ -1,3 +1,4 @@
+export * from "./AccessTokenRepository";
 export * from "./AuthorizationScopeRepository";
 export * from "./ClientRepository";
 export * from "./OTPRequestRepository";

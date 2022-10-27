@@ -1,5 +1,5 @@
-import { http as httpConfig } from "../../config";
-import { AuthController, StudentController } from "../../application";
+import { http as httpConfig } from "@config";
+import { AuthController, StudentController } from "@application";
 import {
   AccessStudentProfile,
   AuthorizeStudentProfileAccess,
@@ -11,22 +11,24 @@ import {
   RequestTokenClientCredentials,
   RequestTokenOTP,
   RequestTokenRefreshToken,
+  RequestTokenResourceOwnerPassword,
   RevokeToken,
   SubmitStudentProfile,
-} from "../../core";
+} from "@core";
 import {
+  MockAccessTokenRepository,
   MockAuthorizationScopeRepository,
   MockClientRepository,
   MockOTPRequestRepository,
   MockStudentProfileRepository,
   MockUserRepository,
-} from "../data";
+} from "@framework/data";
 import {
   MockCryptoFunctions,
   MockMailer,
   MockPasswordHasher,
   MockTokenSigner,
-} from "../providers";
+} from "@framework/providers";
 import { App } from "./app";
 import { Router } from "./router";
 
@@ -39,13 +41,14 @@ export class HTTPServer {
     const otpRequestRepository = new MockOTPRequestRepository();
     const userRepository = new MockUserRepository();
     const studentProfileRepository = new MockStudentProfileRepository();
+    const accessTokenRepository = new MockAccessTokenRepository();
 
     const passwordHasher = new MockPasswordHasher();
     const cryptoFunctions = new MockCryptoFunctions();
     const mailer = new MockMailer();
     const tokenSigner = new MockTokenSigner();
 
-    const generateToken = new GenerateToken(tokenSigner, cryptoFunctions);
+    const generateToken = new GenerateToken(accessTokenRepository, tokenSigner);
     const requestAuthorization = new RequestAuthorization(
       generateToken,
       authorizationScopeRepository,
@@ -55,7 +58,7 @@ export class HTTPServer {
     const requestTokenAuthorizationCode = new RequestTokenAuthorizationCode(
       generateToken,
       authorizationScopeRepository,
-      otpRequestRepository,
+
       userRepository,
       clientRepository,
       passwordHasher
@@ -72,6 +75,14 @@ export class HTTPServer {
       otpRequestRepository,
       userRepository
     );
+    const requestTokenResourceOwnerPassword =
+      new RequestTokenResourceOwnerPassword(
+        generateToken,
+        authorizationScopeRepository,
+        userRepository,
+        clientRepository,
+        passwordHasher
+      );
     const requestTokenRefreshToken = new RequestTokenRefreshToken(
       generateToken,
       authorizationScopeRepository,
@@ -80,6 +91,7 @@ export class HTTPServer {
       clientRepository,
       passwordHasher
     );
+
     const revokeToken = new RevokeToken();
 
     const authController = new AuthController(
@@ -88,6 +100,7 @@ export class HTTPServer {
       requestTokenAuthorizationCode,
       requestTokenClientCredentials,
       requestTokenOTP,
+      requestTokenResourceOwnerPassword,
       requestTokenRefreshToken,
       revokeToken
     );

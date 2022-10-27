@@ -1,7 +1,7 @@
 import { fromThrowable, Result } from "@lgpd-lesson/shared";
-import { PasswordHasher } from "../../core";
+import { PasswordHasher } from "@core";
 import { scryptSync, randomBytes } from "crypto";
-import { passwords } from "../../config";
+import { passwords } from "@config";
 
 export class MockPasswordHasher implements PasswordHasher {
   constructor(private keylen = passwords.hash_keylen) {}

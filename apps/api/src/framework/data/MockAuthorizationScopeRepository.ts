@@ -1,6 +1,6 @@
 import { Client, notOk, ok, Result, User } from "@lgpd-lesson/shared";
-import { fixtures } from "../../config";
-import { AuthorizationScopeRepository } from "../../core";
+import { fixtures } from "@config";
+import { AuthorizationScopeRepository } from "@core";
 
 export class MockAuthorizationScopeRepository
   implements AuthorizationScopeRepository

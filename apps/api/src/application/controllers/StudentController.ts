@@ -4,7 +4,7 @@ import {
   AuthorizeStudentProfileAccess,
   RequestStudentProfileAccess,
   SubmitStudentProfile,
-} from "../../core";
+} from "@core";
 
 @Controller("/profiles")
 export class StudentController {

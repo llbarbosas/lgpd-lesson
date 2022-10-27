@@ -1,5 +1,5 @@
 import { OTP, Result, ok, notOk } from "@lgpd-lesson/shared";
-import { OTPRequestRepository } from "../../core";
+import { OTPRequestRepository } from "@core";
 import { customAlphabet } from "nanoid";
 
 const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 5);

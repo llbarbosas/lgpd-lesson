@@ -7,8 +7,8 @@ import {
   notOk,
   StudentProfileAccess,
 } from "@lgpd-lesson/shared";
-import { StudentProfileRepository, UserRepository } from "../../data";
-import { CryptoFunctions, PasswordHasher } from "../../provider";
+import { StudentProfileRepository, UserRepository } from "@core/data";
+import { CryptoFunctions, PasswordHasher } from "@core/provider";
 
 type Properties = {
   studentProfileId: StudentProfile["id"];

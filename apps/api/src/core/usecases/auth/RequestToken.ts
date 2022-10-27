@@ -12,11 +12,11 @@ import {
   AuthorizationScopeRepository,
   OTPRequestRepository,
   UserRepository,
-} from "../../data";
-import { PasswordHasher, TokenSigner } from "../../provider";
+} from "@core/data";
+import { PasswordHasher } from "@core/provider";
 import { GenerateToken } from "./GenerateToken";
 
-type requestType = "client_credentials" | "otp" | "code";
+type requestType = "client_credentials" | "otp" | "code" | "password";
 
 type RequestTokenClientCredentialsProperties = {
   clientId: Client["id"];
@@ -183,7 +183,6 @@ export class RequestTokenAuthorizationCode
   constructor(
     private generateToken: GenerateToken,
     private authorizationScopeRepository: AuthorizationScopeRepository,
-    private otpRequestRepository: OTPRequestRepository,
     private userRepository: UserRepository,
     private clientRepository: ClientRepository,
     private passwordHasher: PasswordHasher
@@ -191,6 +190,78 @@ export class RequestTokenAuthorizationCode
 
   async execute(props: RequestTokenAuthorizationCodeProperties) {
     return notOk(new Error("TODO"));
+  }
+}
+
+type RequestTokenResourceOwnerPasswordProperties = {
+  clientId: Client["id"];
+  clientSecret: string;
+  audience?: string;
+  username: User["username"];
+  password: string;
+  scope: string;
+};
+
+export class RequestTokenResourceOwnerPassword
+  implements
+    UseCase<
+      RequestTokenResourceOwnerPasswordProperties,
+      Promise<Result<AccessTokenResponse>>
+    >
+{
+  constructor(
+    private generateToken: GenerateToken,
+    private authorizationScopeRepository: AuthorizationScopeRepository,
+    private userRepository: UserRepository,
+    private clientRepository: ClientRepository,
+    private passwordHasher: PasswordHasher
+  ) {}
+
+  async execute(props: RequestTokenResourceOwnerPasswordProperties) {
+    const { username, password, clientId } = props;
+
+    const userResult = await this.userRepository.getOne({ username });
+
+    if (userResult.isNotOk()) {
+      return notOk(new Error("Invalid user credentials"));
+    }
+
+    const secretIsValid = this.passwordHasher
+      .compare(password, userResult.value.password)
+      .mapNotOk(() => false).value;
+
+    if (!secretIsValid) {
+      return notOk(new Error("Invalid user credentials"));
+    }
+
+    const requestedScopesIds = props.scope.split(" ");
+
+    const userAvailableScopesResult =
+      await this.authorizationScopeRepository.getUserInheritedScopes({
+        userId: userResult.value.id,
+        inheritedFromScopeIds: requestedScopesIds,
+      });
+
+    if (userAvailableScopesResult.isNotOk()) {
+      return notOk(new Error("Server error"));
+    }
+
+    const generateTokenResult = await this.generateToken.execute({
+      accessTokenData: {
+        issuer: clientId,
+        subject: userResult.value.id,
+        scope: userAvailableScopesResult.value,
+      },
+    });
+
+    if (generateTokenResult.isNotOk()) {
+      return generateTokenResult;
+    }
+
+    return ok({
+      access_token: generateTokenResult.value,
+      expires_in: this.generateToken.tokenExpirationTime,
+    });
   }
 }
 

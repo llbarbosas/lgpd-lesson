@@ -5,8 +5,8 @@ import {
   StudentProfileAccess,
   notOk,
 } from "@lgpd-lesson/shared";
-import { StudentProfileRepository, UserRepository } from "../../data";
-import { Mailer } from "../../provider";
+import { StudentProfileRepository, UserRepository } from "@core/data";
+import { Mailer } from "@core/provider";
 
 type Properties = {
   studentProfileId: StudentProfileAccess["studentProfileId"];

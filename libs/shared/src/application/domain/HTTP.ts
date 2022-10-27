@@ -1,4 +1,4 @@
-import { PartialRecord, KeysMatching, Result } from "../../core";
+import { PartialRecord, KeysMatching, Result } from "@core";
 import { HTTPError, InternalServerError, NotFoundError } from "./HTTP.errors";
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS";

@@ -1,6 +1,6 @@
 import { notOk, ok, Result, User } from "@lgpd-lesson/shared";
-import { fixtures } from "../../config";
-import { UserRepository } from "../../core";
+import { fixtures } from "@config";
+import { UserRepository } from "@core";
 
 export class MockUserRepository implements UserRepository {
   constructor(private repositoryData = fixtures.userRepositoryData) {}

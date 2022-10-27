@@ -5,8 +5,9 @@ import {
   Result,
   UseCase,
 } from "@lgpd-lesson/shared";
-import { authentication } from "../../../config";
-import { TokenSigner, CryptoFunctions } from "../../provider";
+import { AccessTokenRepository } from "@core/data";
+import { authentication } from "@config";
+import { TokenSigner } from "@core/provider";
 
 type Properties = {
   accessTokenData: Pick<AccessTokenData, "issuer" | "scope" | "subject">;
@@ -16,8 +17,8 @@ export class GenerateToken
   implements UseCase<Properties, Promise<Result<string>>>
 {
   constructor(
+    private accessTokenRepository: AccessTokenRepository,
     private tokenSigner: TokenSigner,
-    private cryptoFunctions: CryptoFunctions,
     private _tokenExpirationTime = authentication.tokenExpirationTime
   ) {}
 
@@ -26,14 +27,23 @@ export class GenerateToken
   }
 
   async execute(props: Properties) {
-    const tokenSignResult = this.tokenSigner.sign({
-      jwtid: this.cryptoFunctions.generateUUID(),
+    const accessTokenData = {
       issuer: props.accessTokenData.issuer,
       scope: props.accessTokenData.scope,
       expiresIn: this.tokenExpirationTime,
       issuedAt: Date.now(),
       subject: props.accessTokenData.subject,
-    });
+    };
+
+    const createTokenResult = await this.accessTokenRepository.createOne(
+      accessTokenData
+    );
+
+    if (createTokenResult.isNotOk()) {
+      return notOk(new Error("Token sign failed"));
+    }
+
+    const tokenSignResult = this.tokenSigner.sign(createTokenResult.value);
 
     if (tokenSignResult.isNotOk()) {
       return notOk(new Error("Token sign failed"));

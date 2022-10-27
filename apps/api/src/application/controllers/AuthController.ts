@@ -7,8 +7,9 @@ import {
   RequestTokenClientCredentials,
   RequestTokenOTP,
   RequestTokenRefreshToken,
+  RequestTokenResourceOwnerPassword,
   RevokeToken,
-} from "../../core";
+} from "@core";
 
 @Controller("/auth")
 export class AuthController {
@@ -18,6 +19,7 @@ export class AuthController {
     private _requestTokenAuthorizationCode: RequestTokenAuthorizationCode,
     private _requestTokenClientCredentials: RequestTokenClientCredentials,
     private _requestTokenOTP: RequestTokenOTP,
+    private _requestTokenResourceOwnerPassword: RequestTokenResourceOwnerPassword,
     private _requestTokenRefreshToken: RequestTokenRefreshToken,
     private _revokeToken: RevokeToken
   ) {}
@@ -112,6 +114,28 @@ export class AuthController {
           refreshToken,
           clientId,
           clientSecret,
+          scope,
+        })
+      );
+    }
+
+    if (grantType === "password") {
+      const {
+        client_id: clientId,
+        client_secret: clientSecret,
+        username,
+        password,
+        audience,
+        scope,
+      } = req.body;
+
+      return Response.fromResultP(
+        this._requestTokenResourceOwnerPassword.execute({
+          clientId,
+          clientSecret,
+          username,
+          password,
+          audience,
           scope,
         })
       );

@@ -7,7 +7,6 @@ import {
 import {
   Request as DomainRequest,
   Handler as DomainHandler,
-  Controller,
   Method,
   PartialRecord,
   getControllerMetadata,

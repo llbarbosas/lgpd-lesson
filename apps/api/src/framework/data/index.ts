@@ -1,3 +1,4 @@
+export * from "./MockAccessTokenRepository";
 export * from "./MockAuthorizationScopeRepository";
 export * from "./MockClientRepository";
 export * from "./MockOTPRequestRepository";

@@ -1,7 +1,7 @@
 import { AccessTokenData, fromThrowable, Result } from "@lgpd-lesson/shared";
-import { TokenSigner } from "../../core";
+import { TokenSigner } from "@core";
 import * as jwt from "jsonwebtoken";
-import { authentication } from "../../config";
+import { authentication } from "@config";
 
 export class MockTokenSigner implements TokenSigner {
   constructor(

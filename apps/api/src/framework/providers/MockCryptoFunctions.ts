@@ -1,5 +1,5 @@
 import { fromThrowable, Result } from "@lgpd-lesson/shared";
-import { AsymmetricKeyPair, CryptoFunctions } from "../../core";
+import { AsymmetricKeyPair, CryptoFunctions } from "@core";
 import {
   createCipheriv,
   createDecipheriv,
