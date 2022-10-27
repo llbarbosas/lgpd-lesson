@@ -1,6 +1,5 @@
 ---
-import TextInput from "../components/TextInput.astro";
-import Layout from "../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 ---
 
 <Layout title="Sistema Acadêmico">
@@ -22,26 +21,16 @@ import Layout from "../layouts/Layout.astro";
       <div
         class="flex flex-col gap-4 bg-white rounded-md w-[400px] shadow-lg p-10"
       >
-        <TextInput
-          name="username"
-          icon="bi-person-fill"
-          placeholder="Passaporte UFMS"
-        />
-        <TextInput
-          name="password"
-          type="password"
-          icon="bi-lock-fill"
-          placeholder="Senha"
-        />
-        <div>
+        <a href="/oauth/passport">
           <button
-            class="rounded text-white text-xl font-semibold uppercase w-full p-4 bg-blue-400 hover:bg-blue-500"
-            >Acessar</button
+            class="rounded text-white text-lg font-semibold w-full p-4 bg-blue-400 hover:bg-blue-500"
+            >Login com Passaporte UFMS</button
           >
-          <a class="flex gap-2 text-sm text-blue-600"
-            ><i class="bi bi-key-fill"></i>Esqueci minha senha</a
-          >
-        </div>
+        </a>
+        <button
+          class="rounded text-white text-lg font-semibold w-full p-4 bg-sky-300 hover:bg-sky-400"
+          >Autenticação de dois passos (OTP)</button
+        >
       </div>
     </div>
   </main>

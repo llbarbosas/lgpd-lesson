@@ -6,8 +6,7 @@ export class MockAuthorizationScopeRepository
   implements AuthorizationScopeRepository
 {
   constructor(
-    private repositoryData = fixtures.authorizationScopeRepositoryData,
-    private scopesClosureTree = fixtures.scopesClosureTree
+    private repositoryData = fixtures.authorizationScopeRepositoryData
   ) {}
 
   async getClientInheritedScopes(query: {
@@ -21,7 +20,7 @@ export class MockAuthorizationScopeRepository
     }
 
     const inheritedScopes = clientScopes.flatMap((scope) =>
-      this.scopesClosureTree
+      this.repositoryData.scopesClosureTree
         .filter(
           ([ancestor]) =>
             scope === ancestor && query.inheritedFromScopeIds.includes(scope)
@@ -43,7 +42,7 @@ export class MockAuthorizationScopeRepository
     }
 
     const inheritedScopes = userScopes.flatMap((scope) =>
-      this.scopesClosureTree
+      this.repositoryData.scopesClosureTree
         .filter(
           ([ancestor]) =>
             scope === ancestor && query.inheritedFromScopeIds.includes(scope)

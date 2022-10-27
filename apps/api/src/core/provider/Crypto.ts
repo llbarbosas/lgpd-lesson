@@ -3,7 +3,7 @@ import { Result } from "@lgpd-lesson/shared";
 export type AsymmetricKeyPair = { publicKey: string; privateKey: string };
 
 export interface CryptoFunctions {
-  generateUUID(): string;
+  generateRandomCode(size: number): Result<string>;
 
   generateRandomSymmetricKey(): Result<string>;
   generateAsymmetricKeys(): Result<AsymmetricKeyPair>;

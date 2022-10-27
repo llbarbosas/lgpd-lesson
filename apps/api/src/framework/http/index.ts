@@ -17,6 +17,7 @@ import {
 } from "@core";
 import {
   MockAccessTokenRepository,
+  MockAuthorizationRequestRepository,
   MockAuthorizationScopeRepository,
   MockClientRepository,
   MockOTPRequestRepository,
@@ -24,44 +25,48 @@ import {
   MockUserRepository,
 } from "@framework/data";
 import {
-  MockCryptoFunctions,
+  NodeCryptoFunctions,
   MockMailer,
-  MockPasswordHasher,
-  MockTokenSigner,
+  ScryptPasswordHasher,
+  JWTTokenSigner,
 } from "@framework/providers";
 import { App } from "./app";
 import { Router } from "./router";
+import {
+  HtmlAuthorizationRequestViewBuilder,
+  HtmlSignInViewBuilder,
+} from "@framework/http/views";
 
 export class HTTPServer {
   private app: App;
 
   constructor(private address: string = httpConfig.address) {
     const authorizationScopeRepository = new MockAuthorizationScopeRepository();
+    const authorizationRequestRepository =
+      new MockAuthorizationRequestRepository();
     const clientRepository = new MockClientRepository();
     const otpRequestRepository = new MockOTPRequestRepository();
     const userRepository = new MockUserRepository();
     const studentProfileRepository = new MockStudentProfileRepository();
     const accessTokenRepository = new MockAccessTokenRepository();
 
-    const passwordHasher = new MockPasswordHasher();
-    const cryptoFunctions = new MockCryptoFunctions();
+    const passwordHasher = new ScryptPasswordHasher();
+    const cryptoFunctions = new NodeCryptoFunctions();
     const mailer = new MockMailer();
-    const tokenSigner = new MockTokenSigner();
+    const tokenSigner = new JWTTokenSigner();
 
     const generateToken = new GenerateToken(accessTokenRepository, tokenSigner);
     const requestAuthorization = new RequestAuthorization(
-      generateToken,
       authorizationScopeRepository,
-      clientRepository
+      clientRepository,
+      authorizationRequestRepository,
+      cryptoFunctions
     );
     const requestOTP = new RequestOTP(otpRequestRepository, mailer);
     const requestTokenAuthorizationCode = new RequestTokenAuthorizationCode(
       generateToken,
-      authorizationScopeRepository,
-
-      userRepository,
-      clientRepository,
-      passwordHasher
+      authorizationRequestRepository,
+      cryptoFunctions
     );
     const requestTokenClientCredentials = new RequestTokenClientCredentials(
       generateToken,
@@ -79,6 +84,7 @@ export class HTTPServer {
       new RequestTokenResourceOwnerPassword(
         generateToken,
         authorizationScopeRepository,
+        authorizationRequestRepository,
         userRepository,
         clientRepository,
         passwordHasher
@@ -94,6 +100,10 @@ export class HTTPServer {
 
     const revokeToken = new RevokeToken();
 
+    const authorizationRequestViewBuilder =
+      new HtmlAuthorizationRequestViewBuilder();
+    const signInViewBuilder = new HtmlSignInViewBuilder();
+
     const authController = new AuthController(
       requestAuthorization,
       requestOTP,
@@ -102,7 +112,9 @@ export class HTTPServer {
       requestTokenOTP,
       requestTokenResourceOwnerPassword,
       requestTokenRefreshToken,
-      revokeToken
+      revokeToken,
+      authorizationRequestViewBuilder,
+      signInViewBuilder
     );
 
     const accessStudentProfile = new AccessStudentProfile(

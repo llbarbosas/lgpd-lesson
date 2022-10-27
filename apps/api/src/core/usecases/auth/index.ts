@@ -1,3 +1,4 @@
+export * from "./AuthorizeAuthorizationRequest";
 export * from "./GenerateToken";
 export * from "./RequestAuthorization";
 export * from "./RequestOTP";

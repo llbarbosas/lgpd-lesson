@@ -8,20 +8,21 @@ import {
   privateDecrypt,
   publicEncrypt,
   randomBytes,
-  randomUUID,
 } from "crypto";
+import { nanoid } from "nanoid";
 
 const IV = Buffer.from("34bc9bd797622b63c23f66ee09587378", "hex");
 const SYMMETRIC_ALGORITHM = "aes-256-ctr";
 
-export class MockCryptoFunctions implements CryptoFunctions {
+export class NodeCryptoFunctions implements CryptoFunctions {
   constructor(
     private iv = IV,
-    private symmetricAlgorithm = SYMMETRIC_ALGORITHM
+    private symmetricAlgorithm = SYMMETRIC_ALGORITHM,
+    private randomCodeGenerator = nanoid
   ) {}
 
-  generateUUID(): string {
-    return randomUUID();
+  generateRandomCode(size: number): Result<string, Error> {
+    return fromThrowable(() => this.randomCodeGenerator(size));
   }
 
   generateRandomSymmetricKey(): Result<string, Error> {
@@ -104,7 +105,7 @@ export class MockCryptoFunctions implements CryptoFunctions {
   }
   createSha256Hash(data: string): Result<string, Error> {
     return fromThrowable(() =>
-      createHash("sha256").update(data).digest("base64")
+      createHash("sha256").update(data).digest("base64url")
     );
   }
 }

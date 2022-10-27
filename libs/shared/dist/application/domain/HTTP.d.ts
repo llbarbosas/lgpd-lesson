@@ -14,6 +14,7 @@ export declare class Response {
     headers?: Record<string, string> | undefined;
     constructor(status: number, body: any, headers?: Record<string, string> | undefined);
     static withHeaders(headers: Required<Response["headers"]>, response: Response): Response;
+    static html(body: string): Response;
     static ok(body: Response["body"]): Response;
     static created(body: Response["body"]): Response;
     static fromResult(result: Result<unknown>): Response;

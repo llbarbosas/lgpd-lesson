@@ -1,5 +1,4 @@
-import { Client } from "./Client";
-import { User } from "./User";
+import { Client, User } from "./";
 
 export type JWT = string;
 

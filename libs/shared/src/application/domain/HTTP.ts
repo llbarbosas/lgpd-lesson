@@ -1,4 +1,4 @@
-import { PartialRecord, KeysMatching, Result } from "@core";
+import { PartialRecord, Result } from "../../core";
 import { HTTPError, InternalServerError, NotFoundError } from "./HTTP.errors";
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS";
@@ -24,6 +24,10 @@ export class Response {
     response: Response
   ): Response {
     return new Response(response.status, response.body, headers);
+  }
+
+  static html(body: string): Response {
+    return new Response(200, body);
   }
 
   static ok(body: Response["body"]): Response {

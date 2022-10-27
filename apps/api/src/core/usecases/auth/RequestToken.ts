@@ -12,9 +12,11 @@ import {
   AuthorizationScopeRepository,
   OTPRequestRepository,
   UserRepository,
+  AuthorizationRequestRepository,
 } from "@core/data";
-import { PasswordHasher } from "@core/provider";
+import { CryptoFunctions, PasswordHasher } from "@core/provider";
 import { GenerateToken } from "./GenerateToken";
+import { fixtures } from "@config";
 
 type requestType = "client_credentials" | "otp" | "code" | "password";
 
@@ -169,8 +171,6 @@ type RequestTokenAuthorizationCodeProperties = {
   code: string;
   codeVerifier: string;
   clientId: Client["id"];
-  clientSecret: string;
-  scope: string;
 };
 
 export class RequestTokenAuthorizationCode
@@ -182,19 +182,70 @@ export class RequestTokenAuthorizationCode
 {
   constructor(
     private generateToken: GenerateToken,
-    private authorizationScopeRepository: AuthorizationScopeRepository,
-    private userRepository: UserRepository,
-    private clientRepository: ClientRepository,
-    private passwordHasher: PasswordHasher
+    private authorizationRequestRepository: AuthorizationRequestRepository,
+    private cryptoFunctions: CryptoFunctions
   ) {}
 
   async execute(props: RequestTokenAuthorizationCodeProperties) {
-    return notOk(new Error("TODO"));
+    const authorizationRequestResult =
+      await this.authorizationRequestRepository.getOne({
+        code: props.code,
+      });
+
+    if (authorizationRequestResult.isNotOk()) {
+      return notOk(
+        new Error("Cannot find authorization request", {
+          cause: authorizationRequestResult.value,
+        })
+      );
+    }
+
+    const {
+      value: { codeChallenge, authorizerUserId, clientId, scope },
+    } = authorizationRequestResult;
+
+    if (authorizerUserId === undefined) {
+      return notOk(new Error("There's a problem with user authorization"));
+    }
+
+    const codeVerifierHashResult = this.cryptoFunctions.createSha256Hash(
+      props.codeVerifier
+    );
+
+    if (codeVerifierHashResult.isNotOk()) {
+      return notOk(
+        new Error("Server error", { cause: codeVerifierHashResult.value })
+      );
+    }
+
+    const codeChallengeMatch = codeVerifierHashResult.value === codeChallenge;
+
+    if (!codeChallengeMatch) {
+      return notOk(new Error("Code verifier dont match challenge"));
+    }
+
+    const generateTokenResult = await this.generateToken.execute({
+      accessTokenData: {
+        issuer: clientId,
+        subject: authorizerUserId,
+        scope: scope.split(" "),
+      },
+    });
+
+    if (generateTokenResult.isNotOk()) {
+      return generateTokenResult;
+    }
+
+    return ok({
+      access_token: generateTokenResult.value,
+      expires_in: this.generateToken.tokenExpirationTime,
+    });
   }
 }
 
 type RequestTokenResourceOwnerPasswordProperties = {
   clientId: Client["id"];
+  signInRequestId?: string;
   clientSecret: string;
   audience?: string;
   username: User["username"];
@@ -212,6 +263,7 @@ export class RequestTokenResourceOwnerPassword
   constructor(
     private generateToken: GenerateToken,
     private authorizationScopeRepository: AuthorizationScopeRepository,
+    private authorizationRequestRepository: AuthorizationRequestRepository,
     private userRepository: UserRepository,
     private clientRepository: ClientRepository,
     private passwordHasher: PasswordHasher
@@ -256,6 +308,34 @@ export class RequestTokenResourceOwnerPassword
 
     if (generateTokenResult.isNotOk()) {
       return generateTokenResult;
+    }
+
+    // TODO: Get from constructor/constant
+    const isOwnTokenRequest = clientId === fixtures.apiClient.id;
+
+    if (isOwnTokenRequest) {
+      if (
+        props.signInRequestId === undefined ||
+        props.clientSecret !== undefined
+      ) {
+        return notOk(new Error("Invalid request"));
+      }
+
+      const authorizationRequestUpdateResult =
+        await this.authorizationRequestRepository.updateOne(
+          {
+            id: props.signInRequestId,
+          },
+          { authorizerUserId: userResult.value.id }
+        );
+
+      if (authorizationRequestUpdateResult.isNotOk()) {
+        return notOk(
+          new Error("Server error", {
+            cause: authorizationRequestUpdateResult.value,
+          })
+        );
+      }
     }
 
     return ok({

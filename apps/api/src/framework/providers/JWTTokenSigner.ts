@@ -3,7 +3,7 @@ import { TokenSigner } from "@core";
 import * as jwt from "jsonwebtoken";
 import { authentication } from "@config";
 
-export class MockTokenSigner implements TokenSigner {
+export class JWTTokenSigner implements TokenSigner {
   constructor(
     private jwtSecretOrPrivateKey = authentication.jwtSecretOrPrivateKey,
     private jwtSecretOrPublicKey = authentication.jwtSecretOrPublicKey

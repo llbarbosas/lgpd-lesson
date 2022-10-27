@@ -1,4 +1,4 @@
-export * from "./MockCryptoFunctions";
+export * from "./NodeCryptoFunctions";
 export * from "./MockMailer";
-export * from "./MockPasswordHasher";
-export * from "./MockTokenSigner";
+export * from "./ScryptPasswordHasher";
+export * from "./JWTTokenSigner";

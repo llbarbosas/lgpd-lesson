@@ -10,6 +10,10 @@ import {
   RequestTokenResourceOwnerPassword,
   RevokeToken,
 } from "@core";
+import {
+  AuthorizationRequestViewBuilder,
+  SignInViewBuilder,
+} from "@application/views";
 
 @Controller("/auth")
 export class AuthController {
@@ -21,30 +25,53 @@ export class AuthController {
     private _requestTokenOTP: RequestTokenOTP,
     private _requestTokenResourceOwnerPassword: RequestTokenResourceOwnerPassword,
     private _requestTokenRefreshToken: RequestTokenRefreshToken,
-    private _revokeToken: RevokeToken
+    private _revokeToken: RevokeToken,
+    private authorizationRequestViewBuilder: AuthorizationRequestViewBuilder,
+    private signInViewBuilder: SignInViewBuilder
   ) {}
+
+  @Get("/signin")
+  async signInView(req: Request): Promise<Response> {
+    return Response.html(
+      this.signInViewBuilder.build({
+        signInRequestId: req.query.signin_request_id as string,
+      })
+    );
+  }
 
   @Get("/authorize")
   async authorize(req: Request): Promise<Response> {
     const {
-      refresh_token: refreshToken,
+      audience,
       client_id: clientId,
       state,
       scope,
       response_type: responseType,
       code_challenge_method: codeChallengeMethod,
-    } = req.body;
+      code_challenge: codeChallenge,
+    } = req.query;
 
-    return Response.fromResultP(
-      this._requestAuthorization.execute({
-        refreshToken,
-        clientId,
-        state,
-        scope,
-        responseType,
-        codeChallengeMethod,
-      })
+    const authorizationRequestResult = await this._requestAuthorization.execute(
+      {
+        audience: audience as string,
+        clientId: clientId as string,
+        state: state as string,
+        scope: scope as string,
+        responseType: responseType as any,
+        codeChallengeMethod: codeChallengeMethod as any,
+        codeChallenge: codeChallenge as string,
+      }
     );
+
+    if (authorizationRequestResult.isNotOk()) {
+      return Response.serverError(authorizationRequestResult.value.message);
+    }
+
+    const authorizationRequestView = this.authorizationRequestViewBuilder.build(
+      authorizationRequestResult.value
+    );
+
+    return Response.html(authorizationRequestView);
   }
 
   @Post("/token")
@@ -86,8 +113,6 @@ export class AuthController {
         code,
         code_verifier: codeVerifier,
         client_id: clientId,
-        client_secret: clientSecret,
-        scope,
       } = req.body;
 
       return Response.fromResultP(
@@ -95,8 +120,6 @@ export class AuthController {
           code,
           codeVerifier,
           clientId,
-          clientSecret,
-          scope,
         })
       );
     }
@@ -122,6 +145,7 @@ export class AuthController {
     if (grantType === "password") {
       const {
         client_id: clientId,
+        signin_request_id: signInRequestId,
         client_secret: clientSecret,
         username,
         password,
@@ -132,6 +156,7 @@ export class AuthController {
       return Response.fromResultP(
         this._requestTokenResourceOwnerPassword.execute({
           clientId,
+          signInRequestId,
           clientSecret,
           username,
           password,

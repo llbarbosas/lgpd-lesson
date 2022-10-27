@@ -1,10 +1,21 @@
 import { Client, User } from "@lgpd-lesson/shared";
 
-export const webClient: Client = {
-  id: "746f9e8e-433a-4df0-8776-765e1681f5d3",
+export const apiClient: Client = {
+  id: "8ee1a446-0fe6-4060-9e8c-65a705e67ee8",
+  name: "@lgpd-lesson API",
   // 123456
   secret:
     "7611d3d04e923e6264e295edb4a340ca:4c80655ded843d05255af3c2866c7597edc4b1488f96411181398d2203d75f0f92eb1c3b5baf9764493fa847f365099104dcdb43e642b04d5e0bcc36233a89ab",
+  redirectUri: "http://localhost:3000/oauth/cb",
+};
+
+export const webClient: Client = {
+  id: "746f9e8e-433a-4df0-8776-765e1681f5d3",
+  name: "@lgpd-lesson Public Web Client",
+  // 123456
+  secret:
+    "7611d3d04e923e6264e295edb4a340ca:4c80655ded843d05255af3c2866c7597edc4b1488f96411181398d2203d75f0f92eb1c3b5baf9764493fa847f365099104dcdb43e642b04d5e0bcc36233a89ab",
+  redirectUri: "http://localhost:8080/oauth/cb",
 };
 
 export const testUser: User = {
@@ -94,7 +105,9 @@ export const clientRepositoryData = {
 };
 
 export const authorizationScopeRepositoryData = {
+  scopesClosureTree,
   client: {
+    [apiClient.id]: apiClient,
     [webClient.id]: webClientScopes,
   },
   user: {

@@ -17,6 +17,6 @@
       "@*": ["*"]
     }
   },
-  "include": ["src"],
+  "include": ["src", "../../libs/shared/src/core/entity/User.ts", "../../libs/shared/src/core/entity/AccessToken.ts"],
   "exclude": ["dist", "**/*.spec.ts"]
 }

@@ -23,6 +23,9 @@
         static withHeaders(headers, response) {
             return new Response(response.status, response.body, headers);
         }
+        static html(body) {
+            return new Response(200, body);
+        }
         static ok(body) {
             return new Response(200, body);
         }

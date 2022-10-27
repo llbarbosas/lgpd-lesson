@@ -3,7 +3,7 @@ import { PasswordHasher } from "@core";
 import { scryptSync, randomBytes } from "crypto";
 import { passwords } from "@config";
 
-export class MockPasswordHasher implements PasswordHasher {
+export class ScryptPasswordHasher implements PasswordHasher {
   constructor(private keylen = passwords.hash_keylen) {}
 
   hash(plainPassword: string): Result<string, Error> {
