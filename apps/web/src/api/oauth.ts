@@ -24,8 +24,12 @@ export const sha256 = async (value: string) => {
   const data = encoder.encode(value);
   const hash = await crypto.subtle.digest("SHA-256", data);
   const hashString = String.fromCharCode(...new Uint8Array(hash));
-  return window.btoa(hashString);
+
+  return base64Url(hashString);
 };
+
+const base64Url = (data: string): string =>
+  window.btoa(data).replace(/\//g, "_").replace(/\+/g, "-").replace(/=$/g, "");
 
 export const getTokenAuthorizationCode = async (
   code: string,
