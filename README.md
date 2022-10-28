@@ -4,7 +4,7 @@
 
 ## lgpd-lesson
 
-Projeto de AoE para introdução aos temas de autenticação, autorização e proteção de dados do pessoais.
+Projeto de AoE para introdução aos temas de autenticação, autorização e proteção de dados pessoais.
 
 </div>
 
@@ -12,7 +12,7 @@ Projeto de AoE para introdução aos temas de autenticação, autorização e pr
 
 Os alunos do curso de [Engenharia de Software](https://www.facom.ufms.br/engenharia-de-software/) da [Universidade Federal de Mato Grosso do Sul (UFMS)](https://www.ufms.br/) têm, ao final de sua formação, uma experiência profissionalizante muito produtiva, que acontece no [Núcleo de Práticas em Engenharia de Software (NES)](https://nes.facom.ufms.br/).
 
-Entretanto, parte do conhecimento prático de certos aspectos do desenvolvimento de aplicações seguras no cenário do mercado de trabalho ainda não são tão acessíveis no âmbito da academia, mais especificamente nos tópicos referentes à autenticação e autorização de aplicações e usuários, e proteção dos dados dos destes.
+Entretanto, parte do conhecimento prático de certos aspectos do desenvolvimento de aplicações seguras no cenário do mercado de trabalho ainda não são tão acessíveis no âmbito da academia, mais especificamente nos tópicos referentes à autenticação e autorização de aplicações e usuários, e proteção dos dados destes.
 
 Além disso, a [Lei Geral de Proteção dos Dados (LGPD)](http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm), de 14 de agosto de 2018, introduz uma cuidados que devem ser observados por estar aplicações. Apesar de se tratar de um tópico não tão recente, suas implicações ainda não fazem parte do conhecimento geral de muitos acadêmicos e desenvolvedores.
 
@@ -32,13 +32,13 @@ Este projeto de Atividades Orientadas de Ensino (AoE) visa prover uma introduç�
 
 ##### Autenticação e autorização
 
-- Introdução e diferenciação dos conceitos de autenticação e autorização;
+- Desenvolvimento de uma introdução textual aos conceitos de autenticação e autorização e sua diferenciação;
 - Desenvolvimento de uma aplicação distribuída de autorização;
 
 ##### Proteção dos dados
 
-- Introdução à LGPD;
-- Introdução à mecanismos de coleta, armazenamento, acesso e compartilhamento seguro (CAAC) de dados sensíveis do usuário;
+- Desenvolvimento de uma introdução textual à LGPD;
+- Desenvolvimento de uma introdução textual à mecanismos de coleta, armazenamento, acesso e compartilhamento seguro (CAAC) de dados sensíveis do usuário;
 
 ###### Proteção dos dados na web
 
@@ -46,5 +46,5 @@ Este projeto de Atividades Orientadas de Ensino (AoE) visa prover uma introduç�
 
 ###### Proteção dos dados no mobile
 
-- Introdução à tecnicas de CAAC para aplicações mobile;
-- Desenvolvimento de uma aplicação cliente mobile que utiliza protocolos de autorização e aplica mecanismos de CAAC de dados sensíveis do usuário
+- Desenvolvimento de uma introdução textual à tecnicas de CAAC para aplicações mobile;
+- Desenvolvimento de uma aplicação cliente mobile Android nativa que utiliza protocolos de autorização e aplica mecanismos de CAAC de dados sensíveis do usuário
