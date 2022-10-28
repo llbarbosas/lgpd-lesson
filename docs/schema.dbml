@@ -16,7 +16,6 @@ table student_profile {
 
   marital_status text
   skin_color text
-  quilombola text
   children_number text
   disability text
   city_change text
@@ -26,7 +25,7 @@ table student_profile {
   work text
   family_financial_support text
   family_income text
-  family_income_dependents text
+  family_income_dependants text
   cadunico text
   
   user_id uuid [not null, ref: > user.id]

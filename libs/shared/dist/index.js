@@ -18,12 +18,13 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "./application", "./core"], factory);
+        define(["require", "exports", "./application", "./core", "./framework"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     __exportStar(require("./application"), exports);
     __exportStar(require("./core"), exports);
+    __exportStar(require("./framework"), exports);
 });
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,10 @@
 import { PartialRecord, Result } from "../../core";
-import { HTTPError, InternalServerError, NotFoundError } from "./HTTP.errors";
+import {
+  BadRequestError,
+  HTTPError,
+  InternalServerError,
+  NotFoundError,
+} from "./HTTP.errors";
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE" | "OPTIONS";
 
@@ -65,6 +70,13 @@ export class Response {
     errorCode?: HTTPError["errorCode"]
   ): Response {
     return Response.fromError(new NotFoundError(message, errorCode));
+  }
+
+  static badRequest(
+    message: HTTPError["message"],
+    errorCode?: HTTPError["errorCode"]
+  ): Response {
+    return Response.fromError(new BadRequestError(message, errorCode));
   }
 
   static serverError(

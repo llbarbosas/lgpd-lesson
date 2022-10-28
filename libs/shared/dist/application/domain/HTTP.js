@@ -51,6 +51,9 @@
         static notFound(message, errorCode) {
             return Response.fromError(new HTTP_errors_1.NotFoundError(message, errorCode));
         }
+        static badRequest(message, errorCode) {
+            return Response.fromError(new HTTP_errors_1.BadRequestError(message, errorCode));
+        }
         static serverError(message, errorCode) {
             return Response.fromError(new HTTP_errors_1.InternalServerError(message, errorCode));
         }

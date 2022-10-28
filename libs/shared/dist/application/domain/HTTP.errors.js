@@ -9,7 +9,7 @@
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.InternalServerError = exports.NotFoundError = void 0;
+    exports.InternalServerError = exports.BadRequestError = exports.NotFoundError = void 0;
     class NotFoundError {
         message;
         errorCode;
@@ -21,6 +21,17 @@
         }
     }
     exports.NotFoundError = NotFoundError;
+    class BadRequestError {
+        message;
+        errorCode;
+        name = "BadRequestError";
+        status = 400;
+        constructor(message = "Invalid request", errorCode) {
+            this.message = message;
+            this.errorCode = errorCode;
+        }
+    }
+    exports.BadRequestError = BadRequestError;
     class InternalServerError {
         message;
         errorCode;

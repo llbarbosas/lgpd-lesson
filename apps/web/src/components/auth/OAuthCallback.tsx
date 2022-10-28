@@ -66,7 +66,7 @@ export function OAuthCallback() {
           />
           <div className="flex flex-col gap-4 bg-white rounded-md w-[400px] shadow-lg p-10">
             {oauthError && (
-              <div className="bg-red-100 p-4 rounded-md flex gap-2">
+              <div className="bg-red-100 p-4 rounded-md flex gap-2 items-center">
                 <i className="bi bi-info-circle-fill text-red-700"></i>
                 {oauthError}
               </div>

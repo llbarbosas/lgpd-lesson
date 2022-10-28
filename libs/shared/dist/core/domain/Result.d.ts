@@ -6,6 +6,7 @@ export declare class Ok<O> {
     isOk(): this is Ok<O>;
     mapOk<P>(fn: (o: O) => P): Result<P, never>;
     mapNotOk<M>(_: (n: unknown) => M): Result<O, M>;
+    expect(message?: string): O;
 }
 export declare class NotOk<N> {
     readonly value: N;
@@ -14,6 +15,7 @@ export declare class NotOk<N> {
     isOk(): this is Ok<never>;
     mapOk<P>(_: (o: unknown) => P): Result<P, N>;
     mapNotOk<M>(fn: (n: N) => M): Result<never, M>;
+    expect(message?: string): never;
 }
 export declare const ok: <O>(value: O) => Ok<O>;
 export declare const notOk: <N>(value: N) => NotOk<N>;

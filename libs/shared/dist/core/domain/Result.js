@@ -27,6 +27,9 @@
         mapNotOk(_) {
             return this;
         }
+        expect(message) {
+            return this.value;
+        }
     }
     exports.Ok = Ok;
     class NotOk {
@@ -45,6 +48,9 @@
         }
         mapNotOk(fn) {
             return new NotOk(fn(this.value));
+        }
+        expect(message) {
+            throw new Error(message ?? "Result.expect() failed");
         }
     }
     exports.NotOk = NotOk;

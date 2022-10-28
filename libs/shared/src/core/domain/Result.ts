@@ -18,6 +18,10 @@ export class Ok<O> {
   mapNotOk<M>(_: (n: unknown) => M): Result<O, M> {
     return this;
   }
+
+  expect(message?: string): O {
+    return this.value;
+  }
 }
 
 export class NotOk<N> {
@@ -37,6 +41,10 @@ export class NotOk<N> {
 
   mapNotOk<M>(fn: (n: N) => M): Result<never, M> {
     return new NotOk(fn(this.value));
+  }
+
+  expect(message?: string): never {
+    throw new Error(message ?? "Result.expect() failed");
   }
 }
 

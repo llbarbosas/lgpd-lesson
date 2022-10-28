@@ -21,5 +21,6 @@ export declare class Response {
     static fromResultP(result: Promise<Result<unknown>>): Promise<Response>;
     static fromError(error: HTTPError): Response;
     static notFound(message: HTTPError["message"], errorCode?: HTTPError["errorCode"]): Response;
+    static badRequest(message: HTTPError["message"], errorCode?: HTTPError["errorCode"]): Response;
     static serverError(message: HTTPError["message"], errorCode?: HTTPError["errorCode"]): Response;
 }

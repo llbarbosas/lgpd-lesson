@@ -14,6 +14,15 @@ export class NotFoundError implements HTTPError {
   ) {}
 }
 
+export class BadRequestError implements HTTPError {
+  name = "BadRequestError";
+  status = 400;
+  constructor(
+    public message: string = "Invalid request",
+    public errorCode?: number
+  ) {}
+}
+
 export class InternalServerError implements HTTPError {
   name = "InternalServerError";
   status = 500;
