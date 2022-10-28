@@ -1,10 +1,16 @@
-import { Client, UseCase, Result, notOk, ok } from "@lgpd-lesson/shared";
+import {
+  Client,
+  UseCase,
+  Result,
+  notOk,
+  ok,
+  CryptoFunctions,
+} from "@lgpd-lesson/shared";
 import {
   AuthorizationRequestRepository,
   AuthorizationScopeRepository,
   ClientRepository,
 } from "@core/data";
-import { CryptoFunctions } from "@core/provider";
 import { AuthorizationRequest } from "@core/entities";
 
 type Properties = {

@@ -1,8 +1,7 @@
-import { notOk, ok, Result, UseCase } from "@lgpd-lesson/shared";
+import { notOk, ok, Result, UseCase, TokenSigner } from "@lgpd-lesson/shared";
 import { AccessTokenData } from "@lgpd-lesson/shared";
 import { AccessTokenRepository } from "@core/data";
 import { authentication } from "@config";
-import { TokenSigner } from "@core/provider";
 
 type Properties = {
   accessTokenData: Pick<AccessTokenData, "issuer" | "scope" | "subject">;

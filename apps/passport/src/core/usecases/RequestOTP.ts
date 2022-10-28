@@ -1,6 +1,5 @@
-import { UseCase, Result, ok, OTP, notOk } from "@lgpd-lesson/shared";
-import { OTPRequestRepository } from "src/core/data";
-import { Mailer } from "src/core/provider";
+import { UseCase, Result, ok, OTP, notOk, Mailer } from "@lgpd-lesson/shared";
+import { OTPRequestRepository } from "@core/data";
 
 type Properties = {
   email: OTP["email"];

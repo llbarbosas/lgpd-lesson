@@ -6,19 +6,17 @@ import {
   Result,
   UseCase,
   User,
+  CryptoFunctions,
+  PasswordHasher,
+  UserRepository,
 } from "@lgpd-lesson/shared";
 import {
   ClientRepository,
   AuthorizationScopeRepository,
   OTPRequestRepository,
-  UserRepository,
   AuthorizationRequestRepository,
 } from "@core/data";
-import { CryptoFunctions, PasswordHasher } from "@core/provider";
 import { GenerateToken } from "./GenerateToken";
-import { fixtures } from "@config";
-
-type requestType = "client_credentials" | "otp" | "code" | "password";
 
 type RequestTokenClientCredentialsProperties = {
   clientId: Client["id"];

@@ -1,6 +1,14 @@
-import { AuthorizationRequestRepository, UserRepository } from "@core/data";
-import { PasswordHasher, TokenSigner } from "@core/provider";
-import { UseCase, Result, ok, notOk, User } from "@lgpd-lesson/shared";
+import { AuthorizationRequestRepository } from "@core/data";
+import {
+  UseCase,
+  Result,
+  ok,
+  notOk,
+  User,
+  UserRepository,
+  PasswordHasher,
+  TokenSigner,
+} from "@lgpd-lesson/shared";
 import { GenerateToken } from "./GenerateToken";
 
 type Properties = {
