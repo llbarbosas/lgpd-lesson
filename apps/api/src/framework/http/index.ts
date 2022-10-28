@@ -4,6 +4,7 @@ import {
   AccessStudentProfile,
   AuthorizeStudentProfileAccess,
   GenerateToken,
+  InternalAuthorize,
   RequestAuthorization,
   RequestOTP,
   RequestStudentProfileAccess,
@@ -97,8 +98,14 @@ export class HTTPServer {
       clientRepository,
       passwordHasher
     );
-
     const revokeToken = new RevokeToken();
+    const internalAuthorize = new InternalAuthorize(
+      userRepository,
+      authorizationRequestRepository,
+      tokenSigner,
+      passwordHasher,
+      generateToken
+    );
 
     const authorizationRequestViewBuilder =
       new HtmlAuthorizationRequestViewBuilder();
@@ -113,6 +120,7 @@ export class HTTPServer {
       requestTokenResourceOwnerPassword,
       requestTokenRefreshToken,
       revokeToken,
+      internalAuthorize,
       authorizationRequestViewBuilder,
       signInViewBuilder
     );

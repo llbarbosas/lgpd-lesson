@@ -245,7 +245,6 @@ export class RequestTokenAuthorizationCode
 
 type RequestTokenResourceOwnerPasswordProperties = {
   clientId: Client["id"];
-  signInRequestId?: string;
   clientSecret: string;
   audience?: string;
   username: User["username"];
@@ -308,34 +307,6 @@ export class RequestTokenResourceOwnerPassword
 
     if (generateTokenResult.isNotOk()) {
       return generateTokenResult;
-    }
-
-    // TODO: Get from constructor/constant
-    const isOwnTokenRequest = clientId === fixtures.apiClient.id;
-
-    if (isOwnTokenRequest) {
-      if (
-        props.signInRequestId === undefined ||
-        props.clientSecret !== undefined
-      ) {
-        return notOk(new Error("Invalid request"));
-      }
-
-      const authorizationRequestUpdateResult =
-        await this.authorizationRequestRepository.updateOne(
-          {
-            id: props.signInRequestId,
-          },
-          { authorizerUserId: userResult.value.id }
-        );
-
-      if (authorizationRequestUpdateResult.isNotOk()) {
-        return notOk(
-          new Error("Server error", {
-            cause: authorizationRequestUpdateResult.value,
-          })
-        );
-      }
     }
 
     return ok({

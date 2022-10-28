@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Request, Response } from "@lgpd-lesson/shared";
 import {
+  AuthorizationRequestRepository,
   GenerateToken,
+  InternalAuthorize,
   RequestAuthorization,
   RequestOTP,
   RequestTokenAuthorizationCode,
@@ -9,6 +11,7 @@ import {
   RequestTokenRefreshToken,
   RequestTokenResourceOwnerPassword,
   RevokeToken,
+  TokenSigner,
 } from "@core";
 import {
   AuthorizationRequestViewBuilder,
@@ -26,6 +29,7 @@ export class AuthController {
     private _requestTokenResourceOwnerPassword: RequestTokenResourceOwnerPassword,
     private _requestTokenRefreshToken: RequestTokenRefreshToken,
     private _revokeToken: RevokeToken,
+    private _internalAuthorize: InternalAuthorize,
     private authorizationRequestViewBuilder: AuthorizationRequestViewBuilder,
     private signInViewBuilder: SignInViewBuilder
   ) {}
@@ -72,6 +76,19 @@ export class AuthController {
     );
 
     return Response.html(authorizationRequestView);
+  }
+
+  @Post("/authorize/internal")
+  async internalAuthorize(req: Request): Promise<Response> {
+    const { signin_request_id: signInRequestId } = req.body;
+    const { authorization: authorizationHeader } = req.headers;
+
+    return Response.fromResultP(
+      this._internalAuthorize.execute({
+        signInRequestId: signInRequestId as string,
+        authorizationHeader: authorizationHeader as string,
+      })
+    );
   }
 
   @Post("/token")
@@ -145,7 +162,6 @@ export class AuthController {
     if (grantType === "password") {
       const {
         client_id: clientId,
-        signin_request_id: signInRequestId,
         client_secret: clientSecret,
         username,
         password,
@@ -156,7 +172,6 @@ export class AuthController {
       return Response.fromResultP(
         this._requestTokenResourceOwnerPassword.execute({
           clientId,
-          signInRequestId,
           clientSecret,
           username,
           password,
