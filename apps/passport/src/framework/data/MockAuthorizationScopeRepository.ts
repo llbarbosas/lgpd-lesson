@@ -1,4 +1,12 @@
-import { Client, notOk, ok, Result, User, fixtures } from "@lgpd-lesson/shared";
+import {
+  Client,
+  notOk,
+  ok,
+  Result,
+  User,
+  fixtures,
+  ScopeInfo,
+} from "@lgpd-lesson/shared";
 import { AuthorizationScopeRepository } from "@core";
 
 export class MockAuthorizationScopeRepository
@@ -7,6 +15,14 @@ export class MockAuthorizationScopeRepository
   constructor(
     private repositoryData = fixtures.authorizationScopeRepositoryData
   ) {}
+
+  async getScopesInfo(query: {
+    scopeIds: string[];
+  }): Promise<Result<ScopeInfo[], Error>> {
+    return ok(
+      query.scopeIds.map((scopeId) => this.repositoryData.scope[scopeId])
+    );
+  }
 
   async getClientInheritedScopes(query: {
     clientId: Client["id"];
@@ -19,7 +35,7 @@ export class MockAuthorizationScopeRepository
     }
 
     const inheritedScopes = clientScopes.flatMap((scope) =>
-      this.repositoryData.scopesClosureTree
+      this.repositoryData.scopeClosureTree
         .filter(
           ([ancestor]) =>
             scope === ancestor && query.inheritedFromScopeIds.includes(scope)
@@ -41,7 +57,7 @@ export class MockAuthorizationScopeRepository
     }
 
     const inheritedScopes = userScopes.flatMap((scope) =>
-      this.repositoryData.scopesClosureTree
+      this.repositoryData.scopeClosureTree
         .filter(
           ([ancestor]) =>
             scope === ancestor && query.inheritedFromScopeIds.includes(scope)

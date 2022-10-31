@@ -4,13 +4,28 @@ export type JWT = string;
 
 export type AccessToken = JWT;
 
+export type ScopeId = string;
+
+export interface ScopeInfo {
+  id: ScopeId;
+  authorizationRequestIcon: string;
+  authorizationRequestTitle: string;
+  authorizationRequestDescription: string;
+}
+
 export type AccessTokenData = {
   jwtid: string;
   issuer: Client["id"];
-  scope: string[];
+  scope: ScopeId[];
   expiresIn: number;
   issuedAt: number;
   subject?: User["id"];
+
+  username?: string;
+  email?: string;
+  cpf?: string;
+  rga?: string;
+  fullname?: string;
 };
 
 export const AccessTokenData = {
@@ -21,6 +36,11 @@ export const AccessTokenData = {
     iat: issuedAt,
     sub: subject,
     scope,
+    username,
+    email,
+    cpf,
+    rga,
+    fullname,
   }: any): AccessTokenData => ({
     jwtid,
     issuer,
@@ -28,6 +48,10 @@ export const AccessTokenData = {
     issuedAt,
     scope: scope.split(" "),
     subject,
+    email,
+    cpf,
+    rga,
+    fullname,
   }),
 
   toJWTClaims: ({
@@ -37,6 +61,11 @@ export const AccessTokenData = {
     issuedAt: iat,
     subject: sub,
     scope,
+    username,
+    email,
+    cpf,
+    rga,
+    fullname,
   }: AccessTokenData) => ({
     jti,
     iss,
@@ -44,5 +73,10 @@ export const AccessTokenData = {
     iat,
     sub,
     scope: scope.join(" "),
+    username,
+    email,
+    cpf,
+    rga,
+    fullname,
   }),
 };

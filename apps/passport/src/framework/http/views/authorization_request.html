@@ -48,30 +48,26 @@
             </div>
 
             <p class="text-sm text-gray-500">
-              Este serviço precisa utilizar as seguintes informações pessoais do
-              seu cadastro:
+              Este serviço deseja utilizar as seguintes informações pessoais da
+              sua conta:
             </p>
 
             <div
               class="border border-gray-100 rounded-md divide-y divide-gray-100"
             >
+              {{#scopesInfo}}
               <div class="flex items-center p-4 gap-4">
-                <i class="bi bi-person-fill text-xl text-gray-600"></i>
+                <i
+                  class="bi {{authorizationRequestIcon}} text-xl text-gray-600"
+                ></i>
                 <div class="flex flex-col">
-                  <h5 class="font-semibold">Seu passaporte UFMS</h5>
-                  <p class="text-sm text-gray-600">Nome de usuário</p>
-                </div>
-              </div>
-
-              <div class="flex items-center p-4 gap-4">
-                <i class="bi bi-person-fill text-xl text-gray-600"></i>
-                <div class="flex flex-col">
-                  <h5 class="font-semibold">Seus dados básicos</h5>
+                  <h5 class="font-semibold">{{authorizationRequestTitle}}</h5>
                   <p class="text-sm text-gray-600">
-                    Nome completo e endereço de e-mail
+                    {{authorizationRequestDescription}}
                   </p>
                 </div>
               </div>
+              {{/scopesInfo}}
             </div>
           </div>
 

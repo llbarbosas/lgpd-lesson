@@ -181,6 +181,7 @@ export class RequestTokenAuthorizationCode
   constructor(
     private generateToken: GenerateToken,
     private authorizationRequestRepository: AuthorizationRequestRepository,
+    private userRepository: UserRepository,
     private cryptoFunctions: CryptoFunctions
   ) {}
 
@@ -206,6 +207,14 @@ export class RequestTokenAuthorizationCode
       return notOk(new Error("There's a problem with user authorization"));
     }
 
+    const userResult = await this.userRepository.getOne({
+      id: authorizerUserId,
+    });
+
+    if (userResult.isNotOk()) {
+      return notOk(new Error("There's a problem with user authorization"));
+    }
+
     const codeVerifierHashResult = this.cryptoFunctions.createSha256Hash(
       props.codeVerifier,
       "base64url"
@@ -223,12 +232,30 @@ export class RequestTokenAuthorizationCode
       return notOk(new Error("Code verifier dont match challenge"));
     }
 
+    const accessTokenData: Omit<
+      AccessTokenData,
+      "expiresIn" | "issuedAt" | "jwtid"
+    > = {
+      issuer: clientId,
+      subject: authorizerUserId,
+      scope: scope.split(" "),
+    };
+
+    const { value: userData } = userResult;
+
+    if (scope.includes("passport")) {
+      accessTokenData["email"] = userData.email;
+      accessTokenData["username"] = userData.username;
+    }
+
+    if (scope.includes("student")) {
+      accessTokenData["fullname"] = userData.fullname;
+      accessTokenData["cpf"] = userData.cpf;
+      accessTokenData["rga"] = userData.rga;
+    }
+
     const generateTokenResult = await this.generateToken.execute({
-      accessTokenData: {
-        issuer: clientId,
-        subject: authorizerUserId,
-        scope: scope.split(" "),
-      },
+      accessTokenData,
     });
 
     if (generateTokenResult.isNotOk()) {

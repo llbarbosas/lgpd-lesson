@@ -1,7 +1,18 @@
+import jwtDecode from "jwt-decode";
 import { nanoid } from "nanoid";
 
 export const clientId = "746f9e8e-433a-4df0-8776-765e1681f5d3";
-export const applicationRequiredScope = "admin";
+export const applicationRequiredScope = "passport student.profile:share";
+
+export const getAccessToken = (): string | null =>
+  window.localStorage.getItem("access_token");
+export const setAccessToken = (accessToken: string) =>
+  window.localStorage.setItem("access_token", accessToken);
+
+export const parseAccessToken = (accessToken: string): any =>
+  jwtDecode(accessToken);
+export const getAccessTokenData = () =>
+  parseAccessToken(getAccessToken() ?? "");
 
 export const generateAuthorizationURL = async () => {
   const state = nanoid();

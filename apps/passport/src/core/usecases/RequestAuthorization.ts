@@ -5,6 +5,7 @@ import {
   notOk,
   ok,
   CryptoFunctions,
+  ScopeInfo,
 } from "@lgpd-lesson/shared";
 import {
   AuthorizationRequestRepository,
@@ -25,6 +26,7 @@ type Properties = {
 
 export type AuthorizationRequestViewParams = AuthorizationRequest & {
   client: Client;
+  scopesInfo: ScopeInfo[];
   authorizeRequestCallbackUri: string;
   denyRequestCallbackUri: string;
 };
@@ -107,6 +109,13 @@ export class RequestAuthorization
       );
     }
 
+    const scopesInfoResult =
+      await this.authorizationScopeRepository.getScopesInfo({
+        scopeIds: inheritedScopesResult.value,
+      });
+
+    const scopesInfo = scopesInfoResult.mapNotOk(() => []).value;
+
     const sendCodeCallbackUri = new URL(clientResult.value.redirectUri);
     sendCodeCallbackUri.searchParams.append(
       "code",
@@ -137,6 +146,7 @@ export class RequestAuthorization
     const viewParams = {
       ...registerAuthorizationRequestResult.value,
       client: clientResult.value,
+      scopesInfo,
       authorizeRequestCallbackUri: authorizeRequestCallbackUri.toString(),
       denyRequestCallbackUri: denyRequestCallbackUri.toString(),
     };

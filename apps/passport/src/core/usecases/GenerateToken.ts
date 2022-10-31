@@ -3,7 +3,7 @@ import { AccessTokenData, authentication } from "@lgpd-lesson/shared";
 import { AccessTokenRepository } from "@core/data";
 
 type Properties = {
-  accessTokenData: Pick<AccessTokenData, "issuer" | "scope" | "subject">;
+  accessTokenData: Omit<AccessTokenData, "expiresIn" | "issuedAt" | "jwtid">;
 };
 
 export class GenerateToken

@@ -72,6 +72,7 @@ export class HTTPServer {
     const requestTokenAuthorizationCode = new RequestTokenAuthorizationCode(
       generateToken,
       authorizationRequestRepository,
+      userRepository,
       cryptoFunctions
     );
     const requestTokenClientCredentials = new RequestTokenClientCredentials(

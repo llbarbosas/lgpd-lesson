@@ -1,19 +1,24 @@
 import * as authentication from "../authentication";
-import { Client, User } from "../../core";
+import { Client, ScopeId, ScopeInfo, User } from "../../core";
 import { NodeCryptoFunctions, ScryptPasswordHasher } from "../../framework";
+
+const passwordHasher = new ScryptPasswordHasher(authentication.hash_keylen);
+
+const siscadWebClientPlainSecret = "123456";
+const siscadWebClientSecret = passwordHasher
+  .hash(siscadWebClientPlainSecret)
+  .expect("siscadWebClientSecret creation failed");
 
 export const siscadWebClient: Client = {
   id: "746f9e8e-433a-4df0-8776-765e1681f5d3",
   name: "SISCAD Web",
   homePageUri: "http://localhost:8080",
-  // 123456
-  secret:
-    "7611d3d04e923e6264e295edb4a340ca:4c80655ded843d05255af3c2866c7597edc4b1488f96411181398d2203d75f0f92eb1c3b5baf9764493fa847f365099104dcdb43e642b04d5e0bcc36233a89ab",
+  secret: siscadWebClientSecret,
   redirectUri: "http://localhost:8080/oauth/cb",
 };
 
 const testUserPlainPassword = "123456";
-const testUserPassword = new ScryptPasswordHasher(authentication.hash_keylen)
+const testUserPassword = passwordHasher
   .hash("123456")
   .expect("testUser.password creation failed");
 
@@ -84,6 +89,9 @@ const testUserPrivateKey = cryptoFunctions
 
 export const testUser: User = {
   id: "09d0e7a5-b93b-4421-b590-6841722e196b",
+  fullname: "Test User",
+  cpf: "111.111.111-11",
+  rga: "2022.1111.111-1",
   username: "test.user",
   email: "test.user@ufms.br",
   password: testUserPassword,
@@ -105,17 +113,71 @@ export const testUser: User = {
   privateKey: testUserPrivateKey,
 };
 
-export const scopesClosureTree = [["admin", "admin"]];
+export const passportScope: ScopeInfo = {
+  id: "passport",
+  authorizationRequestTitle: "Seu passaporte UFMS",
+  authorizationRequestDescription: "Nome de usuário e e-mail institucional",
+  authorizationRequestIcon: "bi-file-person-fill",
+};
 
-export const siscadWebClientScopes: string[] = ["admin"];
-export const testUserScopes: string[] = ["admin"];
+export const studentScope: ScopeInfo = {
+  id: "student",
+  authorizationRequestTitle: "Seu cadastro estudantil",
+  authorizationRequestDescription: "Nome completo, CPF, RGA e curso",
+  authorizationRequestIcon: "bi-bank",
+};
+
+export const studentProfileScope: ScopeInfo = {
+  id: "student.profile",
+  authorizationRequestTitle: "Seu cadastro sociodemográfico",
+  authorizationRequestDescription:
+    "Dados sensíveis como origem racial ou étnica e informações financeiras",
+  authorizationRequestIcon: "bi-person-lines-fill",
+};
+
+export const studentProfileShareScope: ScopeInfo = {
+  id: "student.profile:share",
+  authorizationRequestTitle: "Cadastros sociodemográficos compartilhados",
+  authorizationRequestDescription:
+    "Permite compartilhar e/ou visualizar cadastros sociodemográficos compartilhados com você",
+  authorizationRequestIcon: "bi-share-fill",
+};
+
+export const scopes = {
+  [passportScope.id]: passportScope,
+  [studentScope.id]: studentScope,
+  [studentProfileScope.id]: studentProfileScope,
+  [studentProfileShareScope.id]: studentProfileShareScope,
+};
+
+export type ScopeClosureTree = [ancestor: ScopeId, descendant: ScopeId][];
+
+export const scopeClosureTree: ScopeClosureTree = [
+  [passportScope.id, passportScope.id],
+  [studentScope.id, studentScope.id],
+  [studentProfileScope.id, studentProfileScope.id],
+  [studentProfileScope.id, studentScope.id],
+  [studentProfileShareScope.id, studentProfileShareScope.id],
+  [studentProfileShareScope.id, studentProfileScope.id],
+  [studentProfileShareScope.id, studentScope.id],
+];
+
+export const siscadWebClientScopes: ScopeId[] = [
+  studentProfileShareScope.id,
+  passportScope.id,
+];
+export const testUserScopes: ScopeId[] = [
+  studentProfileShareScope.id,
+  passportScope.id,
+];
 
 export const clientRepositoryData = {
   [siscadWebClient.id]: siscadWebClient,
 };
 
 export const authorizationScopeRepositoryData = {
-  scopesClosureTree,
+  scopeClosureTree,
+  scope: scopes,
   client: {
     [siscadWebClient.id]: siscadWebClientScopes,
   },
@@ -124,7 +186,7 @@ export const authorizationScopeRepositoryData = {
   },
 };
 
-export const optRequestRepositoryData = {};
+export const otpRequestRepositoryData = {};
 
 export const userRepositoryData = {
   [testUser.id]: testUser,

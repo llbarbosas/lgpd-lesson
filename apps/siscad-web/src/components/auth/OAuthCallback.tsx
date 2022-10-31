@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTokenAuthorizationCode } from "../../api/oauth";
+import { getTokenAuthorizationCode, setAccessToken } from "../../api/oauth";
 
 export function OAuthCallback() {
   const [oauthError, setOauthError] = useState<string>();
@@ -38,10 +38,7 @@ export function OAuthCallback() {
           return;
         }
 
-        window.localStorage.setItem(
-          "access_token",
-          accessTokenResponse.access_token
-        );
+        setAccessToken(accessTokenResponse.access_token);
 
         window.location.href = "/";
       }

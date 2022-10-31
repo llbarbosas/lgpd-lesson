@@ -5,6 +5,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { getAccessToken } from "../../api/oauth";
 import { formDataToObject } from "../../util/formData";
 
 type Fields = Array<{
@@ -33,7 +34,7 @@ export function StudentProfileForm() {
 
       const { password, ...studentProfile } = formDataToObject(formData);
 
-      const accessToken = window.localStorage.getItem("access_token");
+      const accessToken = getAccessToken();
 
       fetch("http://localhost:3001/v1/profiles", {
         method: "post",
