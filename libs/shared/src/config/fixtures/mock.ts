@@ -4,7 +4,7 @@ import { NodeCryptoFunctions, ScryptPasswordHasher } from "../../framework";
 
 export const siscadWebClient: Client = {
   id: "746f9e8e-433a-4df0-8776-765e1681f5d3",
-  name: "@lgpd-lesson Public Web Client",
+  name: "SISCAD Web",
   homePageUri: "http://localhost:8080",
   // 123456
   secret:
