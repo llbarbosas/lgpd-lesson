@@ -1,4 +1,4 @@
-import { fixtures, http as httpConfig, authentication } from "@config";
+import { http as httpConfig } from "@config";
 import { StudentController } from "@application";
 import {
   AccessStudentProfile,
@@ -15,6 +15,8 @@ import {
   App,
   Router,
   JWTTokenSigner,
+  fixtures,
+  authentication as sharedAuthenticationConfig,
 } from "@lgpd-lesson/shared";
 import { join } from "path";
 
@@ -25,10 +27,14 @@ export class HTTPServer {
     const userRepository = new MockUserRepository(fixtures.userRepositoryData);
     const studentProfileRepository = new MockStudentProfileRepository();
 
-    const passwordHasher = new ScryptPasswordHasher(authentication.hash_keylen);
+    const passwordHasher = new ScryptPasswordHasher(
+      sharedAuthenticationConfig.hash_keylen
+    );
     const cryptoFunctions = new NodeCryptoFunctions();
     const mailer = new MockMailer();
-    const tokenSigner = new JWTTokenSigner(authentication.jwtSecretOrPublicKey);
+    const tokenSigner = new JWTTokenSigner(
+      sharedAuthenticationConfig.jwtSecretOrPublicKey
+    );
 
     const accessStudentProfile = new AccessStudentProfile(
       studentProfileRepository,

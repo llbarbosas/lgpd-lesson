@@ -25,7 +25,7 @@ export class StudentController {
   ) {}
 
   @Get("/fields")
-  async getProfileFields(req: Request): Promise<Response> {
+  async getProfileFields(_: Request): Promise<Response> {
     return Response.ok(fixtures.studentProfileFields);
   }
 

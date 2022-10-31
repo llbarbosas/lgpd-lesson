@@ -14,13 +14,13 @@ Os alunos do curso de [Engenharia de Software](https://www.facom.ufms.br/engenha
 
 Entretanto, parte do conhecimento prático de certos aspectos do desenvolvimento de aplicações seguras no cenário do mercado de trabalho ainda não são tão acessíveis no âmbito da academia, mais especificamente nos tópicos referentes à autenticação e autorização de aplicações e usuários, e proteção dos dados destes.
 
-Além disso, a [Lei Geral de Proteção dos Dados (LGPD)](http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm), de 14 de agosto de 2018, introduz uma cuidados que devem ser observados por estar aplicações. Apesar de se tratar de um tópico não tão recente, suas implicações ainda não fazem parte do conhecimento geral de muitos acadêmicos e desenvolvedores.
+Além disso, a [Lei Geral de Proteção dos Dados (LGPD)](http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm), de 14 de agosto de 2018, introduz uma série de cuidados que devem ser observados por estar aplicações. Apesar de se tratar de um tópico não tão recente, suas implicações ainda não fazem parte do conhecimento geral de muitos acadêmicos e desenvolvedores.
 
 O contexto desse projeto leva também em consideração a existência de uma variedade de cursos, palestras e conteúdos na internet sobre o tema, mas identifica uma carência da orientação prática do mesmo.
 
 ### Objetivo
 
-Este projeto de Atividades Orientadas de Ensino (AoE) visa prover uma introdução à essa temática descrita aos alunos que estão cursando as disciplinas de Prática em Desenvolvimento de Software I e II no NES, provendo uma abordagem mais voltada para a prática, porém devidamente baseada na teoria e legislação vigente.
+Este projeto de Atividades Orientadas de Ensino (AoE) visa prover uma introdução à temática descrita aos alunos que estão cursando as disciplinas de Prática em Desenvolvimento de Software I e II no NES, provendo uma abordagem mais voltada para a prática, porém devidamente baseada na teoria e legislação vigente.
 
 ### Resultados esperados
 

@@ -1,5 +1,4 @@
-import { Result, Client, notOk, ok } from "@lgpd-lesson/shared";
-import { fixtures } from "@config";
+import { Result, Client, notOk, ok, fixtures } from "@lgpd-lesson/shared";
 import { ClientRepository } from "@core";
 
 export class MockClientRepository implements ClientRepository {

@@ -1,0 +1,233 @@
+{
+	"info": {
+		"_postman_id": "10f4a018-3203-461e-80f6-c46033efa1c0",
+		"name": "Autenticação",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authorize",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{passport_api_url}}/auth/authorize?client_id&state&response_type=code&code_challenge_method=S256&code_challenge&scope",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "client_id",
+							"value": null
+						},
+						{
+							"key": "state",
+							"value": null
+						},
+						{
+							"key": "response_type",
+							"value": "code"
+						},
+						{
+							"key": "code_challenge_method",
+							"value": "S256"
+						},
+						{
+							"key": "code_challenge",
+							"value": null
+						},
+						{
+							"key": "scope",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Token (client_credentials)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"grant_type\": \"client_credentials\",\n    \"client_id\": \"\",\n    \"client_secret\": \"\",\n    \"scope\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{passport_api_url}}/auth/token",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Token (otp)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"grant_type\": \"otp\",\n    \"otp_method\": \"email\",\n    \"email\": \"\",\n    \"scope\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{passport_api_url}}/auth/token",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Token (code)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"grant_type\": \"code\",\n    \"client_id\": \"\",\n    \"client_verifier\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{passport_api_url}}/auth/token",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Token (refresh_token)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"grant_type\": \"refresh_token\",\n    \"refresh_token\": \"\",\n    \"client_id\": \"\",\n    \"client_secret\": \"\",\n    \"scope\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{passport_api_url}}/auth/token",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request Token (password)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"grant_type\": \"password\",\n    \"client_id\": \"\",\n    \"client_secret\": \"\",\n    \"username\": \"\",\n    \"password\": \"\",\n    \"scope\": \"\",\n    \"audience\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{passport_api_url}}/auth/token",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Revoke Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{passport_api_url}}/auth/revoke",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"revoke"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Request OTP",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"otp_method\": \"email\",\n    \"email\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{passport_api_url}}/auth/otp",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"otp"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

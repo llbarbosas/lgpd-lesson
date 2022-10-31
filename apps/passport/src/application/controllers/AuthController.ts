@@ -1,7 +1,5 @@
 import { Controller, Get, Post, Request, Response } from "@lgpd-lesson/shared";
 import {
-  AuthorizationRequestRepository,
-  GenerateToken,
   InternalAuthorize,
   RequestAuthorization,
   RequestOTP,
@@ -11,7 +9,6 @@ import {
   RequestTokenRefreshToken,
   RequestTokenResourceOwnerPassword,
   RevokeToken,
-  TokenSigner,
 } from "@core";
 import {
   AuthorizationRequestViewBuilder,
@@ -185,7 +182,7 @@ export class AuthController {
   }
 
   @Post("/revoke")
-  async revokeToken(req: Request): Promise<Response> {
+  async revokeToken(_: Request): Promise<Response> {
     return Response.fromResultP(this._revokeToken.execute({}));
   }
 
