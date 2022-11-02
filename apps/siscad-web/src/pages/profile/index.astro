@@ -1,7 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { StudentProfileForm } from "../../components/profile/StudentProfileForm";
-import { LogoutButton } from "../../components/auth/LogoutButton";
+import { StudentProfile } from "../../components/profile/StudentProfile";
+import { StudentNavbarButton } from "../../components/navbar/StudentNavbarButton";
+import { StudentInfo } from "../../components/profile/StudentInfo";
 ---
 
 <Layout title="Sistema Acadêmico">
@@ -15,35 +16,20 @@ import { LogoutButton } from "../../components/auth/LogoutButton";
       />
     </div>
     <div class="flex items-center text-white">
-      <button class="hover:bg-sky-600 h-fit px-6 py-4"
-        ><i class="bi bi-envelope"></i>
-      </button>
-      <div
-        class="relative group select-none hover:bg-sky-600 h-fit px-6 py-4 flex items-center gap-2"
-      >
-        Estudante da Silva <i class="bi bi-person-fill"></i>
-        <div
-          class="hidden group-hover:flex justify-end absolute top-full left-0 w-full p-4 bg-white"
-        >
-          <LogoutButton client:load />
-        </div>
-      </div>
+      <StudentNavbarButton client:load />
     </div>
   </header>
   <main class="min-h-screen w-screen bg-[#ecf0f5] flex justify-center">
     <div class="flex flex-col gap-10 p-10">
       <h2 class="text-2xl font-medium">Perfil do Estudante</h2>
-      <div>
-        <p><b>Nome:</b> ESTUDANTE DA SILVA</p>
-        <p><b>CPF:</b> 000.000.000-00</p>
-      </div>
+      <StudentInfo client:load />
 
       <div class="bg-white rounded-md w-[700px]">
         <header class="pb-6 p-4 border-b-2 border-blue-500">
           <h1 class="text-3xl">Perfil do Estudante 2022/2</h1>
         </header>
 
-        <StudentProfileForm client:load />
+        <StudentProfile client:load />
       </div>
     </div>
   </main>

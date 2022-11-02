@@ -5,7 +5,7 @@ export declare class Ok<O> {
     isNotOk(): this is NotOk<never>;
     isOk(): this is Ok<O>;
     mapOk<P>(fn: (o: O) => P): Result<P, never>;
-    mapNotOk<M>(_: (n: unknown) => M): Result<O, M>;
+    mapNotOk<M>(_: (n: never) => M): Result<O, M>;
     expect(message?: string): O;
 }
 export declare class NotOk<N> {
@@ -13,7 +13,7 @@ export declare class NotOk<N> {
     constructor(value: N);
     isNotOk(): this is NotOk<N>;
     isOk(): this is Ok<never>;
-    mapOk<P>(_: (o: unknown) => P): Result<P, N>;
+    mapOk<P>(_: (o: never) => P): Result<P, N>;
     mapNotOk<M>(fn: (n: N) => M): Result<never, M>;
     expect(message?: string): never;
 }

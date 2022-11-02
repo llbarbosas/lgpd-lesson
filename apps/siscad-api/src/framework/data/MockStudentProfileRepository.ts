@@ -1,6 +1,5 @@
 import {
   notOk,
-  Ok,
   ok,
   Result,
   StudentProfile,
@@ -19,8 +18,19 @@ export class MockStudentProfileRepository implements StudentProfileRepository {
     } = { profile: {}, profileAccess: {} }
   ) {}
 
-  async getOne(query: { id: string }): Promise<Result<StudentProfile, Error>> {
-    const studentProfile = this.repositoryData.profile[query.id];
+  async getOne(query: {
+    id?: string;
+    userId?: string;
+  }): Promise<Result<StudentProfile, Error>> {
+    let studentProfile: StudentProfile | undefined;
+
+    if (query.id) {
+      studentProfile = this.repositoryData.profile[query.id];
+    } else if (query.userId) {
+      studentProfile = Object.values(this.repositoryData.profile).find(
+        ({ userId }) => userId === query.userId
+      );
+    }
 
     if (studentProfile === undefined) {
       return notOk(new Error("Student profile not found"));
@@ -48,6 +58,16 @@ export class MockStudentProfileRepository implements StudentProfileRepository {
     userId: string;
   }) {
     return `${studentProfileId}:${userId}`;
+  }
+
+  async getAllProfileAccess(
+    query?: { userId?: string | undefined } | undefined
+  ): Promise<Result<StudentProfileAccess[], Error>> {
+    return ok(
+      Object.values(this.repositoryData.profileAccess).filter(({ userId }) => {
+        return query?.userId ?? userId === query?.userId;
+      })
+    );
   }
 
   async getOneProfileAccess(query: {

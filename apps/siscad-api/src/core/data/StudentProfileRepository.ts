@@ -6,9 +6,14 @@ import {
 } from "@lgpd-lesson/shared";
 
 export interface StudentProfileRepository {
-  getOne(query: { id: StudentProfile["id"] }): Promise<Result<StudentProfile>>;
+  getOne(
+    query: Partial<Pick<StudentProfile, "userId" | "id">>
+  ): Promise<Result<StudentProfile>>;
   createOne(data: Omit<StudentProfile, "id">): Promise<Result<StudentProfile>>;
 
+  getAllProfileAccess(
+    query?: Partial<Pick<StudentProfileAccess, "userId" | "studentProfileId">>
+  ): Promise<Result<StudentProfileAccess[]>>;
   getOneProfileAccess(query: {
     studentProfileId: StudentProfile["id"];
     userId: User["id"];

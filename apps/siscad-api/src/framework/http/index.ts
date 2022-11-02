@@ -1,8 +1,9 @@
 import { http as httpConfig } from "@config";
-import { StudentController } from "@application";
+import { StudentProfileController } from "@application";
 import {
   AccessStudentProfile,
   AuthorizeStudentProfileAccess,
+  ListStudentProfiles,
   RequestStudentProfileAccess,
   SubmitStudentProfile,
 } from "@core";
@@ -59,16 +60,20 @@ export class HTTPServer {
       passwordHasher,
       cryptoFunctions
     );
+    const listStudentProfiles = new ListStudentProfiles(
+      studentProfileRepository
+    );
 
-    const studentController = new StudentController(
+    const studentProfileController = new StudentProfileController(
       submitStudentProfile,
       requestStudentProfileAccess,
       authorizeStudentProfileAccess,
       accessStudentProfile,
+      listStudentProfiles,
       tokenSigner
     );
 
-    const router = new Router([studentController]);
+    const router = new Router([studentProfileController]);
 
     const publicFolderPath = join(__dirname, "public");
 

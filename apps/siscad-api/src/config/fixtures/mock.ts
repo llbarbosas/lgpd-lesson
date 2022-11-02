@@ -6,23 +6,23 @@ export const studentProfileFields = [
     label: "Qual é o seu estado civil?",
     options: [
       {
-        value: "single",
+        value: "1",
         label: "Casado(a)/União estável",
       },
       {
-        value: "single",
+        value: "2",
         label: "Solteiro(a)",
       },
       {
-        value: "single",
+        value: "3",
         label: "Viúvo(a)",
       },
       {
-        value: "single",
+        value: "4",
         label: "Separado(a)/Desquitado(a)",
       },
       {
-        value: "single",
+        value: "5",
         label: "Outro",
       },
     ],
@@ -32,27 +32,27 @@ export const studentProfileFields = [
     label: "Qual a sua cor/etnia?",
     options: [
       {
-        value: "single",
+        value: "yellow",
         label: "Amarela",
       },
       {
-        value: "single",
+        value: "white",
         label: "Branca",
       },
       {
-        value: "single",
+        value: "indigenous",
         label: "Indígena",
       },
       {
-        value: "single",
+        value: "brown",
         label: "Parda",
       },
       {
-        value: "single",
-        label: "Prata",
+        value: "black",
+        label: "Preta",
       },
       {
-        value: "single",
+        value: "other",
         label: "Outra",
       },
     ],
@@ -62,23 +62,23 @@ export const studentProfileFields = [
     label: "Você possui filhos?",
     options: [
       {
-        value: "single",
+        value: "no",
         label: "Não",
       },
       {
-        value: "single",
+        value: "1",
         label: "1",
       },
       {
-        value: "single",
+        value: "2",
         label: "2",
       },
       {
-        value: "single",
+        value: "3",
         label: "3",
       },
       {
-        value: "single",
+        value: "4 or more",
         label: "4 ou mais",
       },
     ],
@@ -89,27 +89,27 @@ export const studentProfileFields = [
       "Você foi diagnosticado com algum tipo de Deficiência, espectro do autismo ou Altas Habilidades?",
     options: [
       {
-        value: "single",
+        value: "no",
         label: "Não",
       },
       {
-        value: "single",
+        value: "1",
         label: "Auditiva",
       },
       {
-        value: "single",
+        value: "2",
         label: "Visual",
       },
       {
-        value: "single",
+        value: "3",
         label: "Locomotiva",
       },
       {
-        value: "single",
+        value: "4",
         label: "Transtorno Espectro Autista",
       },
       {
-        value: "single",
+        value: "5",
         label: "Altas Habilidades",
       },
     ],
@@ -119,11 +119,11 @@ export const studentProfileFields = [
     label: "Você mudou de cidade para cursar a UFMS?",
     options: [
       {
-        value: "true",
+        value: "yes",
         label: "Sim",
       },
       {
-        value: "false",
+        value: "no",
         label: "Não",
       },
     ],
@@ -133,11 +133,11 @@ export const studentProfileFields = [
     label: "Se sim, de qual estado?",
     options: [
       {
-        value: "single",
+        value: "none",
         label: "Nenhum",
       },
       {
-        value: "single",
+        value: "ms",
         label: "Mato Grosso do Sul",
       },
     ],
@@ -147,23 +147,23 @@ export const studentProfileFields = [
     label: "Você vem a UFMS com qual meio de transporte?",
     options: [
       {
-        value: "single",
+        value: "1",
         label: "Veículo próprio",
       },
       {
-        value: "single",
+        value: "2",
         label: "Transporte público (ônibus)",
       },
       {
-        value: "single",
+        value: "3",
         label: "Carona / a pé",
       },
       {
-        value: "single",
+        value: "4",
         label: "Transporte privado (taxi ou apps de mobilidade urbana, etc.",
       },
       {
-        value: "single",
+        value: "5",
         label: "Outro",
       },
     ],
@@ -173,19 +173,19 @@ export const studentProfileFields = [
     label: "Qual é a sua situação atual de moradia?",
     options: [
       {
-        value: "single",
+        value: "1",
         label: "Sozinho",
       },
       {
-        value: "single",
+        value: "2",
         label: "Com a família/cônjuge/companheiro(a)",
       },
       {
-        value: "single",
+        value: "3",
         label: "Com amigos",
       },
       {
-        value: "single",
+        value: "4",
         label: "Outra",
       },
     ],
@@ -195,11 +195,11 @@ export const studentProfileFields = [
     label: "Você trabalha?",
     options: [
       {
-        value: "true",
+        value: "yes",
         label: "Sim",
       },
       {
-        value: "false",
+        value: "no",
         label: "Não",
       },
     ],
@@ -210,11 +210,11 @@ export const studentProfileFields = [
     label: "Você recebe apoio financeiro da sua família ou amigos?",
     options: [
       {
-        value: "true",
+        value: "yes",
         label: "Sim",
       },
       {
-        value: "false",
+        value: "no",
         label: "Não",
       },
     ],
@@ -225,19 +225,19 @@ export const studentProfileFields = [
       "Qual a renda total da sua família, com a soma de todas as rendas das pessoas da sua família?",
     options: [
       {
-        value: "single",
+        value: "1",
         label: "Menos de 1 salário mínimo",
       },
       {
-        value: "single",
+        value: "1-2",
         label: "Entre 1 e 2 salários mínimos",
       },
       {
-        value: "single",
+        value: "2-4",
         label: "Entre 2 e 4 salários mínimos",
       },
       {
-        value: "single",
+        value: "4 or more",
         label: "Mais de 4 salários mínimos",
       },
     ],
@@ -254,11 +254,11 @@ export const studentProfileFields = [
       "Você tem o Cadastro Único (CadÚnico) do Governo Federal? (Para concorrer aos auxílios estudantis e o benefício no Restaurante Universitário)",
     options: [
       {
-        value: "true",
+        value: "yes",
         label: "Sim",
       },
       {
-        value: "false",
+        value: "no",
         label: "Não",
       },
     ],

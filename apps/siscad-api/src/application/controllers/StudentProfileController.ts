@@ -9,24 +9,73 @@ import {
 import {
   AccessStudentProfile,
   AuthorizeStudentProfileAccess,
+  ListStudentProfiles,
   RequestStudentProfileAccess,
   SubmitStudentProfile,
 } from "@core";
 import { fixtures } from "@config";
 
 @Controller("/profiles")
-export class StudentController {
+export class StudentProfileController {
   constructor(
     private _submitStudentProfile: SubmitStudentProfile,
     private _requestStudentProfileAccess: RequestStudentProfileAccess,
     private _authorizeStudentProfileAccess: AuthorizeStudentProfileAccess,
     private _accessStudentProfile: AccessStudentProfile,
+    private _listStudentProfiles: ListStudentProfiles,
     private tokenSigner: TokenSigner
   ) {}
 
   @Get("/fields")
   async getProfileFields(_: Request): Promise<Response> {
     return Response.ok(fixtures.studentProfileFields);
+  }
+
+  @Get("/")
+  async listStudentProfiles(req: Request): Promise<Response> {
+    const { authorization: authorizationHeader } = req.headers;
+
+    const accessTokenResult =
+      this.tokenSigner.fromAuthorizationHeader(authorizationHeader);
+
+    if (accessTokenResult.isNotOk()) {
+      return Response.badRequest(accessTokenResult.value.message);
+    }
+
+    if (accessTokenResult.value.subject === undefined) {
+      return Response.badRequest("User access token needed");
+    }
+
+    return Response.fromResultP(
+      this._listStudentProfiles.execute({
+        accessTokenData: accessTokenResult.value,
+      })
+    );
+  }
+
+  @Get("/:id")
+  async accessStudentProfile(req: Request): Promise<Response> {
+    const { id: studentProfileId } = req.params;
+    const { authorization: authorizationHeader, password } = req.headers;
+
+    const accessTokenResult =
+      this.tokenSigner.fromAuthorizationHeader(authorizationHeader);
+
+    if (accessTokenResult.isNotOk()) {
+      return Response.badRequest(accessTokenResult.value.message);
+    }
+
+    if (accessTokenResult.value.subject === undefined) {
+      return Response.badRequest("User access token needed");
+    }
+
+    return Response.fromResultP(
+      this._accessStudentProfile.execute({
+        studentProfileId: studentProfileId as string,
+        userId: accessTokenResult.value.subject,
+        password: password as string,
+      })
+    );
   }
 
   @Post("/")
@@ -100,31 +149,6 @@ export class StudentController {
 
     return Response.fromResultP(
       this._authorizeStudentProfileAccess.execute({
-        studentProfileId,
-        userId: accessTokenResult.value.subject,
-        password,
-      })
-    );
-  }
-
-  @Get("/")
-  async accessStudentProfile(req: Request): Promise<Response> {
-    const { student_profile_id: studentProfileId, password } = req.body;
-    const { authorization: authorizationHeader } = req.headers;
-
-    const accessTokenResult =
-      this.tokenSigner.fromAuthorizationHeader(authorizationHeader);
-
-    if (accessTokenResult.isNotOk()) {
-      return Response.badRequest(accessTokenResult.value.message);
-    }
-
-    if (accessTokenResult.value.subject === undefined) {
-      return Response.badRequest("User access token needed");
-    }
-
-    return Response.fromResultP(
-      this._accessStudentProfile.execute({
         studentProfileId,
         userId: accessTokenResult.value.subject,
         password,

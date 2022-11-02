@@ -21,11 +21,9 @@ export class GenerateToken
 
   async execute(props: Properties) {
     const accessTokenData = {
-      issuer: props.accessTokenData.issuer,
-      scope: props.accessTokenData.scope,
+      ...props.accessTokenData,
       expiresIn: this.tokenExpirationTime,
       issuedAt: Date.now(),
-      subject: props.accessTokenData.subject,
     };
 
     const createTokenResult = await this.accessTokenRepository.createOne(

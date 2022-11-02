@@ -1,13 +1,13 @@
 import jwtDecode from "jwt-decode";
 import { nanoid } from "nanoid";
 
-export const clientId = "746f9e8e-433a-4df0-8776-765e1681f5d3";
-export const applicationRequiredScope = "passport student.profile:share";
+export const CLIENT_ID = "746f9e8e-433a-4df0-8776-765e1681f5d3";
+export const CLIENT_REQUIRED_SCOPE = "passport student.profile:share";
 
 export const getAccessToken = (): string | null =>
-  window.localStorage.getItem("access_token");
+  window?.localStorage?.getItem("access_token");
 export const setAccessToken = (accessToken: string) =>
-  window.localStorage.setItem("access_token", accessToken);
+  window?.localStorage?.setItem("access_token", accessToken);
 
 export const parseAccessToken = (accessToken: string): any =>
   jwtDecode(accessToken);
@@ -20,11 +20,11 @@ export const generateAuthorizationURL = async () => {
   const codeChallenge = await sha256(codeVerifier);
 
   const url = new URL("http://localhost:3000/v1/auth/authorize");
-  url.searchParams.append("client_id", clientId);
+  url.searchParams.append("client_id", CLIENT_ID);
   url.searchParams.append("response_type", "code");
   url.searchParams.append("code_challenge_method", "S256");
   url.searchParams.append("code_challenge", codeChallenge);
-  url.searchParams.append("scope", applicationRequiredScope);
+  url.searchParams.append("scope", CLIENT_REQUIRED_SCOPE);
   url.searchParams.append("state", state);
 
   return { state, codeVerifier, url: url.toString() };
@@ -55,7 +55,7 @@ export const getTokenAuthorizationCode = async (
       grant_type: "code",
       code,
       code_verifier: codeVerifier,
-      client_id: clientId,
+      client_id: CLIENT_ID,
     }),
   });
 

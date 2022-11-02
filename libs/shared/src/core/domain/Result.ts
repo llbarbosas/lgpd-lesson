@@ -15,7 +15,7 @@ export class Ok<O> {
     return new Ok(fn(this.value));
   }
 
-  mapNotOk<M>(_: (n: unknown) => M): Result<O, M> {
+  mapNotOk<M>(_: (n: never) => M): Result<O, M> {
     return this;
   }
 
@@ -35,7 +35,7 @@ export class NotOk<N> {
     return false;
   }
 
-  mapOk<P>(_: (o: unknown) => P): Result<P, N> {
+  mapOk<P>(_: (o: never) => P): Result<P, N> {
     return this;
   }
 
