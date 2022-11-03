@@ -37,7 +37,11 @@ export class AccessStudentProfile
     });
 
     if (studentProfileResult.isNotOk()) {
-      return notOk(new Error("Invalid student profile ID"));
+      return notOk(
+        new Error("Não foi possível encontrar o cadastro solicitado", {
+          cause: studentProfileResult.value,
+        })
+      );
     }
 
     const userResult = await this.userRepository.getOne({
@@ -45,7 +49,11 @@ export class AccessStudentProfile
     });
 
     if (userResult.isNotOk()) {
-      return notOk(new Error("User not found"));
+      return notOk(
+        new Error("Não foi possível encontrar o usuário solicitado", {
+          cause: userResult.value,
+        })
+      );
     }
 
     const isValidPassword = this.passwordHasher
@@ -53,7 +61,7 @@ export class AccessStudentProfile
       .mapNotOk(() => false).value;
 
     if (!isValidPassword) {
-      return notOk(new Error("Invalid password"));
+      return notOk(new Error("Credenciais de usuário inválidas"));
     }
 
     const passwordHashResult = this.cryptoFunctions.createSha256Hash(
@@ -61,7 +69,11 @@ export class AccessStudentProfile
     );
 
     if (passwordHashResult.isNotOk()) {
-      return notOk(new Error("Server error"));
+      return notOk(
+        new Error("Não foi possível processar a criptografia da senha", {
+          cause: passwordHashResult.value,
+        })
+      );
     }
 
     const privateKeyResult = this.cryptoFunctions.decryptSymmetric(
@@ -70,7 +82,11 @@ export class AccessStudentProfile
     );
 
     if (privateKeyResult.isNotOk()) {
-      return notOk(new Error("Invalid password"));
+      return notOk(
+        new Error("Credenciais de usuário inválidas", {
+          cause: privateKeyResult.value,
+        })
+      );
     }
 
     let encryptedSymmetricKey: string;
@@ -88,12 +104,16 @@ export class AccessStudentProfile
         });
 
       if (profileAccessRequest.isNotOk()) {
-        return notOk(new Error("Profile not accesssible to user"));
+        return notOk(
+          new Error("O cadastro não foi compartilhado com este usuário")
+        );
       }
 
       if (profileAccessRequest.value.symmetricKey === null) {
         return notOk(
-          new Error("Student profile access request not awnsered yet")
+          new Error(
+            "A solicitação de acesso ao cadastro ainda não foi autorizada"
+          )
         );
       }
 
@@ -106,7 +126,11 @@ export class AccessStudentProfile
     );
 
     if (symmetricKeyResult.isNotOk()) {
-      return notOk(new Error("Invalid password"));
+      return notOk(
+        new Error("Credenciais de usuário inválidas", {
+          cause: symmetricKeyResult.value,
+        })
+      );
     }
 
     const {

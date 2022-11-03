@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "a83cf9dc-bc3f-48cd-8f6b-d6fc1775411f",
+		"name": "siscad-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24218487"
+	},
+	"item": [
+		{
+			"name": "Listar Campos do Cadastro Estudantil",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user1_access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{siscad_api_url}}/profiles/fields",
+					"host": [
+						"{{siscad_api_url}}"
+					],
+					"path": [
+						"profiles",
+						"fields"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Registrar Cadastro Estudantil",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user1_access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "password",
+						"value": "{{password}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student_profile\": {\n        \"marital_status\": \"1\",\n        \"skin_color\": \"black\",\n        \"children_number\": \"1\",\n        \"disability\": \"no\",\n        \"city_change\": \"no\",\n        \"state_city_change\": \"none\",\n        \"transportation\": \"1\",\n        \"residency\": \"1\",\n        \"work\": \"yes\",\n        \"family_financial_support\": \"no\",\n        \"family_income_dependants\": \"1\",\n        \"cadunico\": \"yes\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{siscad_api_url}}/profiles",
+					"host": [
+						"{{siscad_api_url}}"
+					],
+					"path": [
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Solicitar Acesso ao Cadastro Estudantil",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user2_access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"usage_intention\": \"Dar uma bisbilhotada\",\n    \"username\": \"{{user1_username}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{siscad_api_url}}/profiles/request_access",
+					"host": [
+						"{{siscad_api_url}}"
+					],
+					"path": [
+						"profiles",
+						"request_access"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Autorizar Acesso ao Cadastro Estudantil",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user1_access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "password",
+						"value": "{{user1_password}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{siscad_api_url}}/profiles/{{student_profile_id}}/authorize?user_id={{user2_id}}",
+					"host": [
+						"{{siscad_api_url}}"
+					],
+					"path": [
+						"profiles",
+						"{{student_profile_id}}",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user2_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Autorizar Acesso ao Cadastro Estudantil Copy",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user1_access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "password",
+						"value": "{{password}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"student_profile_id\": \"\",\n    \"user_id\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{siscad_api_url}}/profiles/access_request/authorize?user_id={{user2_id}}",
+					"host": [
+						"{{siscad_api_url}}"
+					],
+					"path": [
+						"profiles",
+						"access_request",
+						"authorize"
+					],
+					"query": [
+						{
+							"key": "user_id",
+							"value": "{{user2_id}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exibir Cadastro Estudantil",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user2_access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "password",
+						"value": "{{user2_password}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{siscad_api_url}}/profiles/{{student_profile_id}}",
+					"host": [
+						"{{siscad_api_url}}"
+					],
+					"path": [
+						"profiles",
+						"{{student_profile_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exibir Informações dos Cadastros Estudantis do Usuário",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{user1_access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{siscad_api_url}}/profiles",
+					"host": [
+						"{{siscad_api_url}}"
+					],
+					"path": [
+						"profiles"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

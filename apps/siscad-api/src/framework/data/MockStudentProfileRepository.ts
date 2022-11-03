@@ -13,7 +13,7 @@ export class MockStudentProfileRepository implements StudentProfileRepository {
     private repositoryData: {
       profile: Record<StudentProfile["id"], StudentProfile>;
 
-      // `${studentProfileId}:${userId}`
+      // key: `${studentProfileId}:${userId}`
       profileAccess: Record<string, StudentProfileAccess>;
     } = { profile: {}, profileAccess: {} }
   ) {}

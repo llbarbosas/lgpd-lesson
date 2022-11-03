@@ -6,6 +6,13 @@ import {
   useState,
 } from "react";
 import { getAccessToken } from "../../api/oauth";
+import { getPassportInfo } from "../../api/passport";
+import {
+  Fields,
+  getStudentProfile,
+  getStudentProfileFields,
+  getStudentProfileInfo,
+} from "../../api/siscad";
 import { formDataToObject } from "../../util/formData";
 
 export function StudentProfile() {
@@ -19,12 +26,9 @@ export function StudentProfile() {
   useEffect(() => {
     const accessToken = getAccessToken();
 
-    fetch("http://localhost:3001/v1/profiles", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+    getStudentProfileInfo({
+      accessToken,
     })
-      .then((response) => response.json())
       .then((data) => {
         if (data.profile?.id) {
           setStudentProfileId(data.profile.id);
@@ -36,20 +40,19 @@ export function StudentProfile() {
   const onPasswordSubmit = (password: string) => {
     const accessToken = getAccessToken();
 
-    fetch(`http://localhost:3001/v1/profiles/${studentProfileId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
+    if (studentProfileId) {
+      getStudentProfile({
+        accessToken,
         password,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (!data.error) {
-          setStudentProfileData(data);
-        }
+        studentProfileId,
       })
-      .catch(console.error);
+        .then((data) => {
+          if (!data.error) {
+            setStudentProfileData(data);
+          }
+        })
+        .catch(console.error);
+    }
   };
 
   return (
@@ -75,9 +78,15 @@ function StudentPasswordPrompt(props: {
         props.open ? "block" : "hidden"
       } absolute bg-gray-200/80 h-full w-full p-4 z-[2]`}
     >
-      <div className="bg-white p-6 rounded-xl shadow-sm flex flex-col gap-6">
+      <form
+        onSubmit={(ev) => {
+          ev.preventDefault();
+          props.onSubmit(password);
+        }}
+        className="bg-white p-6 rounded-xl shadow-sm flex flex-col gap-6"
+      >
         <h4 className="text-gray-700 text-lg">
-          Digite sua senha para acessar seus dados
+          Digite sua senha para visualizar seus dados
         </h4>
         <div className="p-4 border border-gray-200 rounded-md flex gap-4">
           <i className={`bi bi-lock-fill text-lg text-gray-600`}></i>
@@ -90,24 +99,15 @@ function StudentPasswordPrompt(props: {
           />
         </div>
         <button
-          onClick={() => props.onSubmit(password)}
+          type="submit"
           className="rounded text-white text-lg font-semibold w-full p-4 bg-blue-400 hover:bg-blue-500"
         >
-          <span>Acessar dados</span>
+          <span>Visualizar</span>
         </button>
-      </div>
+      </form>
     </div>
   );
 }
-
-type Fields = Array<{
-  name: string;
-  label: string;
-  options: Array<{
-    value: string;
-    label: string;
-  }>;
-}>;
 
 export function StudentProfileForm(props: {
   submittedProfileData?: Record<string, string>;
@@ -115,9 +115,7 @@ export function StudentProfileForm(props: {
   const [fields, setFields] = useState<Fields>([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/v1/profiles/fields")
-      .then((response) => response.json())
-      .then((data) => setFields(data));
+    getStudentProfileFields().then((data) => setFields(data));
   }, []);
 
   const onSubmit = useMemo(
@@ -153,9 +151,6 @@ export function StudentProfileForm(props: {
 
   return (
     <form onSubmit={onSubmit} className="text-sm">
-      <FormRow className="form-row">
-        <h3 className="uppercase">Dados pessoais</h3>
-      </FormRow>
       <FormRow className="form-row">
         <p>
           Conheça a Política de Privacidade e Proteção de Dados no âmbito da

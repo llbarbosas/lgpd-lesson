@@ -33,7 +33,11 @@ export class SubmitStudentProfile
     });
 
     if (userResult.isNotOk()) {
-      return notOk(new Error("User not found"));
+      return notOk(
+        new Error("Não foi possível encontrar o usuário informado", {
+          cause: userResult.value,
+        })
+      );
     }
 
     const isValidPassword = this.passwordHasher
@@ -41,14 +45,18 @@ export class SubmitStudentProfile
       .mapNotOk(() => false);
 
     if (!isValidPassword) {
-      return notOk(new Error("Invalid password"));
+      return notOk(new Error("Credenciais de usuário inválidas"));
     }
 
     const symmetricKeyResult =
       this.cryptoFunctions.generateRandomSymmetricKey();
 
     if (symmetricKeyResult.isNotOk()) {
-      return notOk(new Error("Server error"));
+      return notOk(
+        new Error("Não foi possível processar a criptografia dos dados", {
+          cause: symmetricKeyResult.value,
+        })
+      );
     }
 
     const plainStudentProfileData = props.studentProfile;
@@ -71,7 +79,11 @@ export class SubmitStudentProfile
     );
 
     if (encryptedSymmetricKeyResult.isNotOk()) {
-      return notOk(new Error("Server error"));
+      return notOk(
+        new Error("Não foi possível processar a criptografia dos dados", {
+          cause: encryptedSymmetricKeyResult.value,
+        })
+      );
     }
 
     const createStudentProfileResult =
@@ -82,7 +94,11 @@ export class SubmitStudentProfile
       });
 
     if (createStudentProfileResult.isNotOk()) {
-      return notOk(new Error("Cannot create student profile"));
+      return notOk(
+        new Error("Não foi possível registrar o cadastro", {
+          cause: createStudentProfileResult.value,
+        })
+      );
     }
 
     return ok({ id: createStudentProfileResult.value.id });

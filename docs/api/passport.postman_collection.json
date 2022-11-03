@@ -1,17 +1,29 @@
 {
 	"info": {
 		"_postman_id": "10f4a018-3203-461e-80f6-c46033efa1c0",
-		"name": "Autenticação",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"name": "passport",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24218487"
 	},
 	"item": [
 		{
-			"name": "Authorize",
+			"name": "Solicitar Autorização",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{passport_api_url}}/auth/authorize?client_id&state&response_type=code&code_challenge_method=S256&code_challenge&scope",
+					"raw": "{{passport_api_url}}/auth/authorize?client_id={{client_id}}&state={{$randomWord}}&response_type=code&code_challenge_method=S256&code_challenge=&scope",
 					"host": [
 						"{{passport_api_url}}"
 					],
@@ -22,11 +34,11 @@
 					"query": [
 						{
 							"key": "client_id",
-							"value": null
+							"value": "{{client_id}}"
 						},
 						{
 							"key": "state",
-							"value": null
+							"value": "{{$randomWord}}"
 						},
 						{
 							"key": "response_type",
@@ -38,7 +50,7 @@
 						},
 						{
 							"key": "code_challenge",
-							"value": null
+							"value": ""
 						},
 						{
 							"key": "scope",
@@ -50,13 +62,13 @@
 			"response": []
 		},
 		{
-			"name": "Request Token (client_credentials)",
+			"name": "Solicitar Token (code)",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"grant_type\": \"client_credentials\",\n    \"client_id\": \"\",\n    \"client_secret\": \"\",\n    \"scope\": \"\"\n}",
+					"raw": "{\n    \"grant_type\": \"code\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_verifier\": \"\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -77,13 +89,13 @@
 			"response": []
 		},
 		{
-			"name": "Request Token (otp)",
+			"name": "Solicitar Token (client_credentials)",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"grant_type\": \"otp\",\n    \"otp_method\": \"email\",\n    \"email\": \"\",\n    \"scope\": \"\"\n}",
+					"raw": "{\n    \"grant_type\": \"client_credentials\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"scope\": \"\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -104,13 +116,13 @@
 			"response": []
 		},
 		{
-			"name": "Request Token (code)",
+			"name": "Solicitar Token (refresh_token)",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"grant_type\": \"code\",\n    \"client_id\": \"\",\n    \"client_verifier\": \"\"\n}",
+					"raw": "{\n    \"grant_type\": \"refresh_token\",\n    \"refresh_token\": \"\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"scope\": \"\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -131,13 +143,13 @@
 			"response": []
 		},
 		{
-			"name": "Request Token (refresh_token)",
+			"name": "Solicitar Token (password)",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"grant_type\": \"refresh_token\",\n    \"refresh_token\": \"\",\n    \"client_id\": \"\",\n    \"client_secret\": \"\",\n    \"scope\": \"\"\n}",
+					"raw": "{\n    \"grant_type\": \"password\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"username\": \"{{user1_username}}\",\n    \"password\": \"{{user1_password}}\",\n    \"scope\": \"passport student.profile:share\",\n    \"audience\": \"\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -158,34 +170,7 @@
 			"response": []
 		},
 		{
-			"name": "Request Token (password)",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"grant_type\": \"password\",\n    \"client_id\": \"\",\n    \"client_secret\": \"\",\n    \"username\": \"\",\n    \"password\": \"\",\n    \"scope\": \"\",\n    \"audience\": \"\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{passport_api_url}}/auth/token",
-					"host": [
-						"{{passport_api_url}}"
-					],
-					"path": [
-						"auth",
-						"token"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Revoke Token",
+			"name": "Revogar Token",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -203,7 +188,7 @@
 			"response": []
 		},
 		{
-			"name": "Request OTP",
+			"name": "Solicitar OTP",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -224,6 +209,33 @@
 					"path": [
 						"auth",
 						"otp"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Solicitar Token (otp)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"grant_type\": \"otp\",\n    \"otp_method\": \"email\",\n    \"email\": \"\",\n    \"scope\": \"\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{passport_api_url}}/auth/token",
+					"host": [
+						"{{passport_api_url}}"
+					],
+					"path": [
+						"auth",
+						"token"
 					]
 				}
 			},

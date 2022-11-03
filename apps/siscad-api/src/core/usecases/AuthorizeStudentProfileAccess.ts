@@ -8,7 +8,6 @@ import {
   StudentProfileAccess,
   UserRepository,
   CryptoFunctions,
-  PasswordHasher,
 } from "@lgpd-lesson/shared";
 import { StudentProfileRepository } from "@core/data";
 
@@ -19,13 +18,16 @@ type Properties = {
 };
 
 export class AuthorizeStudentProfileAccess
-  implements UseCase<Properties, Promise<Result<StudentProfileAccess>>>
+  implements
+    UseCase<
+      Properties,
+      Promise<Result<Omit<StudentProfileAccess, "symmetricKey">>>
+    >
 {
   constructor(
     private studentProfileRepository: StudentProfileRepository,
     private userRepository: UserRepository,
-    private cryptoFunctions: CryptoFunctions,
-    private passwordHasher: PasswordHasher
+    private cryptoFunctions: CryptoFunctions
   ) {}
 
   async execute(props: Properties) {
@@ -34,15 +36,35 @@ export class AuthorizeStudentProfileAccess
     });
 
     if (studentProfileResult.isNotOk()) {
-      return notOk(new Error("Student profile not found"));
+      return notOk(
+        new Error("Não foi possível encontrar o cadastro informado", {
+          cause: studentProfileResult.value,
+        })
+      );
     }
 
-    const userResult = await this.userRepository.getOne({
+    const sharedWithUserResult = await this.userRepository.getOne({
       id: props.userId,
     });
 
-    if (userResult.isNotOk()) {
-      return notOk(new Error("User not found"));
+    if (sharedWithUserResult.isNotOk()) {
+      return notOk(
+        new Error("Não foi possível encontrar o usuário informado", {
+          cause: sharedWithUserResult.value,
+        })
+      );
+    }
+
+    const ownerUserResult = await this.userRepository.getOne({
+      id: studentProfileResult.value.userId,
+    });
+
+    if (ownerUserResult.isNotOk()) {
+      return notOk(
+        new Error("Não foi possível encontrar o usuário informado", {
+          cause: sharedWithUserResult.value,
+        })
+      );
     }
 
     const passwordHashResult = this.cryptoFunctions.createSha256Hash(
@@ -50,7 +72,24 @@ export class AuthorizeStudentProfileAccess
     );
 
     if (passwordHashResult.isNotOk()) {
-      return notOk(new Error("Server error"));
+      return notOk(
+        new Error("Não foi possível processar a criptografia da senha", {
+          cause: passwordHashResult.value,
+        })
+      );
+    }
+
+    const userPlainPrivateKeyResult = this.cryptoFunctions.decryptSymmetric(
+      ownerUserResult.value.privateKey,
+      passwordHashResult.value
+    );
+
+    if (userPlainPrivateKeyResult.isNotOk()) {
+      return notOk(
+        new Error("Credenciais de usuário inválidas", {
+          cause: userPlainPrivateKeyResult.value,
+        })
+      );
     }
 
     const {
@@ -59,16 +98,20 @@ export class AuthorizeStudentProfileAccess
 
     const symmetricKeyResult = this.cryptoFunctions.decryptAsymmetric(
       encryptedSymmetricKey,
-      passwordHashResult.value
+      userPlainPrivateKeyResult.value
     );
 
     if (symmetricKeyResult.isNotOk()) {
-      return notOk(new Error("Invalid password"));
+      return notOk(
+        new Error("Credenciais de usuário inválidas", {
+          cause: symmetricKeyResult.value,
+        })
+      );
     }
 
     const {
       value: { publicKey: sharedWithUserPublicKey, id: sharedWithUserId },
-    } = userResult;
+    } = sharedWithUserResult;
 
     const sharedWithUserSymmetricKeyResult =
       this.cryptoFunctions.encryptAsymmetric(
@@ -77,7 +120,11 @@ export class AuthorizeStudentProfileAccess
       );
 
     if (sharedWithUserSymmetricKeyResult.isNotOk()) {
-      return notOk(new Error("Server error"));
+      return notOk(
+        new Error("Não foi possível processar a criptografia dos cadastro", {
+          cause: sharedWithUserSymmetricKeyResult.value,
+        })
+      );
     }
 
     const updateStudentProfileAccessResult =
@@ -92,9 +139,19 @@ export class AuthorizeStudentProfileAccess
       );
 
     if (updateStudentProfileAccessResult.isNotOk()) {
-      return notOk(new Error("Cannot create profile access"));
+      return notOk(
+        new Error(
+          "Não foi possível atualizar a solicitação de acesso ao cadastro",
+          {
+            cause: updateStudentProfileAccessResult.value,
+          }
+        )
+      );
     }
 
-    return ok(updateStudentProfileAccessResult.value);
+    const { symmetricKey: _, ...updateStudentProfileAccess } =
+      updateStudentProfileAccessResult.value;
+
+    return ok(updateStudentProfileAccess);
   }
 }

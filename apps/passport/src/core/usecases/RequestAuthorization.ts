@@ -48,7 +48,7 @@ export class RequestAuthorization
     if (responseType !== "code") {
       return notOk(
         new Error(
-          `Available response_type's are: 'code'. Invalid: ${responseType}`
+          `O response_type "${responseType}" é inválido. Válidos: "code"`
         )
       );
     }
@@ -56,7 +56,7 @@ export class RequestAuthorization
     if (codeChallengeMethod !== "S256") {
       return notOk(
         new Error(
-          `Available code_challenge_method's: 'S256'. Invalid: ${codeChallengeMethod}`
+          `O code_challenge_method "${codeChallengeMethod}" é inválido. Válidos: "S256"`
         )
       );
     }
@@ -65,7 +65,9 @@ export class RequestAuthorization
 
     if (clientResult.isNotOk()) {
       return notOk(
-        new Error("Cannot find client", { cause: clientResult.value })
+        new Error("Não foi possível encontrar o client", {
+          cause: clientResult.value,
+        })
       );
     }
 
@@ -79,14 +81,20 @@ export class RequestAuthorization
 
     if (inheritedScopesResult.isNotOk()) {
       return notOk(
-        new Error("Server error", { cause: inheritedScopesResult.value })
+        new Error("Não foi possível processar os scopes", {
+          cause: inheritedScopesResult.value,
+        })
       );
     }
 
     const codeResult = this.cryptoFunctions.generateRandomCode(20);
 
     if (codeResult.isNotOk()) {
-      return notOk(new Error("Server error", { cause: codeResult.value }));
+      return notOk(
+        new Error("Não foi possível gerar o código", {
+          cause: codeResult.value,
+        })
+      );
     }
 
     const registerAuthorizationRequestResult =
@@ -103,7 +111,7 @@ export class RequestAuthorization
 
     if (registerAuthorizationRequestResult.isNotOk()) {
       return notOk(
-        new Error("Server error", {
+        new Error("Não foi possível registrar a solicitação", {
           cause: registerAuthorizationRequestResult.value,
         })
       );

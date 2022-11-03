@@ -1,0 +1,87 @@
+{
+	"id": "ca3eedbd-8104-40f8-8998-fdd1411ff830",
+	"values": [
+		{
+			"key": "siscad_api_url",
+			"value": "http://localhost:3001/v1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "passport_api_url",
+			"value": "http://localhost:3000/v1",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "client_id",
+			"value": "746f9e8e-433a-4df0-8776-765e1681f5d3",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "client_secret",
+			"value": "123456",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user1_access_token",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user1_id",
+			"value": "09d0e7a5-b93b-4421-b590-6841722e196b",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user1_username",
+			"value": "test.user",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user1_password",
+			"value": "123456",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user2_access_token",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user2_id",
+			"value": "b2991343-76ea-4eef-9c02-4247826d3fdb",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user2_username",
+			"value": "test.usertwo",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "user2_password",
+			"value": "78910",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "student_profile_id",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"name": "Globals",
+	"_postman_variable_scope": "globals",
+	"_postman_exported_at": "2022-11-03T03:42:10.941Z",
+	"_postman_exported_using": "Postman/9.31.22"
+}

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useAccessTokenData } from "../../api/oauth_react";
+import { useAccessTokenData } from "../../api/oauthReact";
 
 export function StudentNavbarButton() {
   const { fullname } = useAccessTokenData();

@@ -1,5 +1,6 @@
 import jwtDecode from "jwt-decode";
 import { nanoid } from "nanoid";
+import * as passportApi from "./passport";
 
 export const CLIENT_ID = "746f9e8e-433a-4df0-8776-765e1681f5d3";
 export const CLIENT_REQUIRED_SCOPE = "passport student.profile:share";
@@ -45,21 +46,9 @@ const base64Url = (data: string): string =>
 export const getTokenAuthorizationCode = async (
   code: string,
   codeVerifier: string
-) => {
-  const response = await fetch("http://localhost:3000/v1/auth/token", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "post",
-    body: JSON.stringify({
-      grant_type: "code",
-      code,
-      code_verifier: codeVerifier,
-      client_id: CLIENT_ID,
-    }),
+) =>
+  passportApi.getAccessToken({
+    code,
+    codeVerifier,
+    clientId: CLIENT_ID,
   });
-
-  const data = await response.json();
-
-  return data;
-};

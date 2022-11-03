@@ -1,4 +1,4 @@
-import { useAccessTokenData } from "../../api/oauth_react";
+import { useAccessTokenData } from "../../api/oauthReact";
 
 export function StudentInfo() {
   const { fullname, cpf } = useAccessTokenData();

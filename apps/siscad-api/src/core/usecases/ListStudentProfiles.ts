@@ -22,14 +22,16 @@ export class ListStudentProfiles
       Promise<
         Result<{
           profile?: Pick<StudentProfile, "id" | "userId">;
-          profilesShared: Pick<
-            StudentProfileAccess,
-            "studentProfileId" | "userId"
-          >[];
-          profileSharedWith: Pick<
-            StudentProfileAccess,
-            "studentProfileId" | "userId"
-          >[];
+          profilesShared: Array<
+            Pick<StudentProfileAccess, "studentProfileId" | "userId"> & {
+              shared: boolean;
+            }
+          >;
+          profileSharedWith: Array<
+            Pick<StudentProfileAccess, "studentProfileId" | "userId"> & {
+              shared: boolean;
+            }
+          >;
         }>
       >
     >
@@ -58,14 +60,13 @@ export class ListStudentProfiles
 
     const profileSharedWith = profileSharedWithResult
       .mapOk((profileAccesses) =>
-        profileAccesses.map(({ studentProfileId, userId }) => ({
+        profileAccesses.map(({ studentProfileId, userId, symmetricKey }) => ({
           studentProfileId,
           userId,
+          shared: symmetricKey !== undefined,
         }))
       )
-      .mapNotOk(
-        () => [] as Pick<StudentProfileAccess, "studentProfileId" | "userId">[]
-      ).value;
+      .mapNotOk(() => [] as any[]).value;
 
     const profilesSharedResult =
       await this.studentProfileRepository.getAllProfileAccess({
@@ -74,14 +75,13 @@ export class ListStudentProfiles
 
     const profilesShared = profilesSharedResult
       .mapOk((profileAccesses) =>
-        profileAccesses.map(({ studentProfileId, userId }) => ({
+        profileAccesses.map(({ studentProfileId, userId, symmetricKey }) => ({
           studentProfileId,
           userId,
+          shared: symmetricKey !== undefined,
         }))
       )
-      .mapNotOk(
-        () => [] as Pick<StudentProfileAccess, "studentProfileId" | "userId">[]
-      ).value;
+      .mapNotOk(() => [] as any[]).value;
 
     return ok({
       profile,

@@ -178,7 +178,7 @@ export class AuthController {
       );
     }
 
-    return Response.serverError("Invalid grant type");
+    return Response.serverError('"grant_type" inválido');
   }
 
   @Post("/revoke")

@@ -14,6 +14,7 @@ import {
   SubmitStudentProfile,
 } from "@core";
 import { fixtures } from "@config";
+import { AuthorizeStudentProfileAccessViewBuilder } from "@application/views";
 
 @Controller("/profiles")
 export class StudentProfileController {
@@ -23,6 +24,7 @@ export class StudentProfileController {
     private _authorizeStudentProfileAccess: AuthorizeStudentProfileAccess,
     private _accessStudentProfile: AccessStudentProfile,
     private _listStudentProfiles: ListStudentProfiles,
+    private authorizeStudentProfileAccessViewBuilder: AuthorizeStudentProfileAccessViewBuilder,
     private tokenSigner: TokenSigner
   ) {}
 
@@ -43,7 +45,7 @@ export class StudentProfileController {
     }
 
     if (accessTokenResult.value.subject === undefined) {
-      return Response.badRequest("User access token needed");
+      return Response.badRequest("Um token de acesso de usuário é necessário");
     }
 
     return Response.fromResultP(
@@ -53,9 +55,9 @@ export class StudentProfileController {
     );
   }
 
-  @Get("/:id")
+  @Get("/:student_profile_id")
   async accessStudentProfile(req: Request): Promise<Response> {
-    const { id: studentProfileId } = req.params;
+    const { student_profile_id: studentProfileId } = req.params;
     const { authorization: authorizationHeader, password } = req.headers;
 
     const accessTokenResult =
@@ -66,7 +68,7 @@ export class StudentProfileController {
     }
 
     if (accessTokenResult.value.subject === undefined) {
-      return Response.badRequest("User access token needed");
+      return Response.badRequest("Um token de acesso de usuário é necessário");
     }
 
     return Response.fromResultP(
@@ -91,7 +93,7 @@ export class StudentProfileController {
     }
 
     if (accessTokenResult.value.subject === undefined) {
-      return Response.badRequest("User access token needed");
+      return Response.badRequest("Um token de acesso de usuário é necessário");
     }
 
     return Response.fromResultP(
@@ -103,10 +105,10 @@ export class StudentProfileController {
     );
   }
 
-  @Post("/access_request")
+  @Post("/request_access")
   async requestStudentProfileAccess(req: Request): Promise<Response> {
     const {
-      student_profile_id: studentProfileId,
+      username: studentProfileUsername,
       usage_intention: usageIntention,
     } = req.body;
     const { authorization: authorizationHeader } = req.headers;
@@ -119,39 +121,42 @@ export class StudentProfileController {
     }
 
     if (accessTokenResult.value.subject === undefined) {
-      return Response.badRequest("User access token needed");
+      return Response.badRequest("Um token de acesso de usuário é necessário");
     }
 
     return Response.fromResultP(
       this._requestStudentProfileAccess.execute({
-        studentProfileId,
+        studentProfileUsername,
         userId: accessTokenResult.value.subject,
         usageIntention,
       })
     );
   }
 
-  @Post("/access_request/authorize")
+  @Get("/:student_profile_id/authorize")
+  async authorizeStudentProfileAccessView(req: Request): Promise<Response> {
+    const { student_profile_id: studentProfileId } = req.params;
+    const { user_id: userId } = req.query;
+
+    return Response.html(
+      this.authorizeStudentProfileAccessViewBuilder.build({
+        studentProfileId: studentProfileId as string,
+        userId: userId as string,
+      })
+    );
+  }
+
+  @Post("/:student_profile_id/authorize")
   async authorizeStudentProfileAccess(req: Request): Promise<Response> {
-    const { student_profile_id: studentProfileId, password } = req.body;
-    const { authorization: authorizationHeader } = req.headers;
-
-    const accessTokenResult =
-      this.tokenSigner.fromAuthorizationHeader(authorizationHeader);
-
-    if (accessTokenResult.isNotOk()) {
-      return Response.badRequest(accessTokenResult.value.message);
-    }
-
-    if (accessTokenResult.value.subject === undefined) {
-      return Response.badRequest("User access token needed");
-    }
+    const { student_profile_id: studentProfileId } = req.params;
+    const { user_id: userId } = req.query;
+    const { password } = req.headers;
 
     return Response.fromResultP(
       this._authorizeStudentProfileAccess.execute({
-        studentProfileId,
-        userId: accessTokenResult.value.subject,
-        password,
+        studentProfileId: studentProfileId as string,
+        userId: userId as string,
+        password: password as string,
       })
     );
   }

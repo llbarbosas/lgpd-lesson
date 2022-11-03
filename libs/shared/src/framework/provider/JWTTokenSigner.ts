@@ -2,7 +2,6 @@ import {
   AccessTokenData,
   fromThrowable,
   notOk,
-  ok,
   Result,
   TokenSigner,
 } from "../../core";
@@ -22,17 +21,21 @@ export class JWTTokenSigner implements TokenSigner {
     authorizationHeader: string | string[] | undefined
   ): Result<AccessTokenData, Error> {
     if (typeof authorizationHeader !== "string") {
-      return notOk(new Error("Invalid authorization header"));
+      return notOk(new Error('O tipo do header "Authorization" é inválido'));
     }
 
     const authorizationHeaderParts = authorizationHeader.split(" ");
 
     if (authorizationHeaderParts.length !== 2) {
-      return notOk(new Error("Invalid authorization header"));
+      return notOk(new Error('O formato do header "Authorization" é inválido'));
     }
 
     if (authorizationHeaderParts[0] !== "Bearer") {
-      return notOk(new Error("Invalid authorization type"));
+      return notOk(
+        new Error(
+          'O tipo do header "Authorization" é inválido. Válidos: "Bearer"'
+        )
+      );
     }
 
     return this.verify(authorizationHeaderParts[1]);
@@ -40,7 +43,9 @@ export class JWTTokenSigner implements TokenSigner {
 
   sign(data: AccessTokenData): Result<string, Error> {
     if (this.jwtSecretOrPrivateKey === undefined) {
-      return notOk(new Error("jwtSecretOrPrivateKey is needed to sign tokens"));
+      return notOk(
+        new Error("jwtSecretOrPrivateKey é necessária para assinar tokens")
+      );
     }
 
     const jwtSecretOrPrivateKey = this.jwtSecretOrPrivateKey;

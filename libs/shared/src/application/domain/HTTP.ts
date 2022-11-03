@@ -58,6 +58,8 @@ export class Response {
   }
 
   static fromError(error: HTTPError): Response {
+    console.error(error, error.stack);
+
     return new Response(error.status, {
       error: error.name,
       message: error.message,

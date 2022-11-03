@@ -42,6 +42,7 @@
             return Response.fromResult(await result);
         }
         static fromError(error) {
+            console.error(error, error.stack);
             return new Response(error.status, {
                 error: error.name,
                 message: error.message,

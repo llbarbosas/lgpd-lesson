@@ -31,13 +31,13 @@ export class GenerateToken
     );
 
     if (createTokenResult.isNotOk()) {
-      return notOk(new Error("Token sign failed"));
+      return notOk(new Error("Não foi possível registrar o token"));
     }
 
     const tokenSignResult = this.tokenSigner.sign(createTokenResult.value);
 
     if (tokenSignResult.isNotOk()) {
-      return notOk(new Error("Token sign failed"));
+      return notOk(new Error("Não foi possível assinar o token"));
     }
 
     return ok(tokenSignResult.value);

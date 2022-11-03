@@ -20,6 +20,7 @@ import {
   authentication as sharedAuthenticationConfig,
 } from "@lgpd-lesson/shared";
 import { join } from "path";
+import { HtmlAuthorizeStudentProfileAccessViewBuilder } from "./views";
 
 export class HTTPServer {
   private app: App;
@@ -46,8 +47,7 @@ export class HTTPServer {
     const authorizeStudentProfileAccess = new AuthorizeStudentProfileAccess(
       studentProfileRepository,
       userRepository,
-      cryptoFunctions,
-      passwordHasher
+      cryptoFunctions
     );
     const requestStudentProfileAccess = new RequestStudentProfileAccess(
       studentProfileRepository,
@@ -64,12 +64,16 @@ export class HTTPServer {
       studentProfileRepository
     );
 
+    const authorizeStudentProfileAccessViewBuilder =
+      new HtmlAuthorizeStudentProfileAccessViewBuilder();
+
     const studentProfileController = new StudentProfileController(
       submitStudentProfile,
       requestStudentProfileAccess,
       authorizeStudentProfileAccess,
       accessStudentProfile,
       listStudentProfiles,
+      authorizeStudentProfileAccessViewBuilder,
       tokenSigner
     );
 

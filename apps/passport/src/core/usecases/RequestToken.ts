@@ -50,7 +50,7 @@ export class RequestTokenClientCredentials
     const clientResult = await this.clientRepository.getOne({ id: clientId });
 
     if (clientResult.isNotOk()) {
-      return notOk(new Error("Invalid client id"));
+      return notOk(new Error("Credenciais do client inválidas"));
     }
 
     const secretIsValid = this.passwordHasher
@@ -58,7 +58,7 @@ export class RequestTokenClientCredentials
       .mapNotOk(() => false).value;
 
     if (!secretIsValid) {
-      return notOk(new Error("Invalid client secret"));
+      return notOk(new Error("Credenciais do client inválidas"));
     }
 
     const requestedScopesIds = props.scope.split(" ");
@@ -70,7 +70,7 @@ export class RequestTokenClientCredentials
       });
 
     if (clientAvailableScopesResult.isNotOk()) {
-      return notOk(new Error("Server error"));
+      return notOk(new Error("Não foi possível processar os scopes"));
     }
 
     const generateTokenResult = await this.generateToken.execute({
@@ -117,7 +117,7 @@ export class RequestTokenOTP
     });
 
     if (otpResult.isNotOk()) {
-      return notOk(new Error("Invalid OTP code"));
+      return notOk(new Error("OTP inválido"));
     }
 
     const userResult = await this.userRepository.getOne({ email: props.email });
@@ -204,7 +204,7 @@ export class RequestTokenAuthorizationCode
     } = authorizationRequestResult;
 
     if (authorizerUserId === undefined) {
-      return notOk(new Error("There's a problem with user authorization"));
+      return notOk(new Error("O usuário não autorizou esta requisição"));
     }
 
     const userResult = await this.userRepository.getOne({
@@ -212,7 +212,7 @@ export class RequestTokenAuthorizationCode
     });
 
     if (userResult.isNotOk()) {
-      return notOk(new Error("There's a problem with user authorization"));
+      return notOk(new Error("Não foi possível encontrar o usuário requerido"));
     }
 
     const codeVerifierHashResult = this.cryptoFunctions.createSha256Hash(
@@ -222,14 +222,20 @@ export class RequestTokenAuthorizationCode
 
     if (codeVerifierHashResult.isNotOk()) {
       return notOk(
-        new Error("Server error", { cause: codeVerifierHashResult.value })
+        new Error("Não foi possível processar o code_verifier", {
+          cause: codeVerifierHashResult.value,
+        })
       );
     }
 
     const codeChallengeMatch = codeVerifierHashResult.value === codeChallenge;
 
     if (!codeChallengeMatch) {
-      return notOk(new Error("Code verifier dont match challenge"));
+      return notOk(
+        new Error(
+          "O code_verifier não corresponde ao code_challenge_method informado"
+        )
+      );
     }
 
     const accessTokenData: Omit<
@@ -300,7 +306,7 @@ export class RequestTokenResourceOwnerPassword
     const userResult = await this.userRepository.getOne({ username });
 
     if (userResult.isNotOk()) {
-      return notOk(new Error("Invalid user credentials"));
+      return notOk(new Error("Credenciais de usuário inválidas"));
     }
 
     const secretIsValid = this.passwordHasher
@@ -308,7 +314,7 @@ export class RequestTokenResourceOwnerPassword
       .mapNotOk(() => false).value;
 
     if (!secretIsValid) {
-      return notOk(new Error("Invalid user credentials"));
+      return notOk(new Error("Credenciais de usuário inválidas"));
     }
 
     const requestedScopesIds = props.scope.split(" ");
@@ -320,7 +326,7 @@ export class RequestTokenResourceOwnerPassword
       });
 
     if (userAvailableScopesResult.isNotOk()) {
-      return notOk(new Error("Server error"));
+      return notOk(new Error("Não foi possível processar os scopes"));
     }
 
     const generateTokenResult = await this.generateToken.execute({
@@ -332,7 +338,11 @@ export class RequestTokenResourceOwnerPassword
     });
 
     if (generateTokenResult.isNotOk()) {
-      return generateTokenResult;
+      return notOk(
+        new Error("Não foi possível assinar o token", {
+          cause: generateTokenResult.value,
+        })
+      );
     }
 
     return ok({

@@ -1,39 +1,25 @@
 ---
-import Layout from "../../layouts/Layout.astro";
 import { StudentProfile } from "../../components/profile/StudentProfile";
-import { StudentNavbarButton } from "../../components/navbar/StudentNavbarButton";
 import { StudentInfo } from "../../components/profile/StudentInfo";
+import MainLayout from "../../layouts/MainLayout.astro";
 ---
 
-<Layout title="Sistema Acadêmico">
-  <header class="w-screen bg-sky-500 flex justify-between items-center">
-    <div class="px-4 py-6 bg-sky-600 w-fit">
-      <img
-        class="w-[200px]"
-        draggable="false"
-        src="siscad_logo.png"
-        alt="siscad logo"
-      />
-    </div>
-    <div class="flex items-center text-white">
-      <StudentNavbarButton client:load />
-    </div>
-  </header>
-  <main class="min-h-screen w-screen bg-[#ecf0f5] flex justify-center">
-    <div class="flex flex-col gap-10 p-10">
-      <h2 class="text-2xl font-medium">Perfil do Estudante</h2>
-      <StudentInfo client:load />
+<MainLayout title="Sistema Acadêmico">
+  <div class="flex flex-col gap-10 p-10">
+    <h2 class="text-2xl font-medium">Perfil do Estudante</h2>
+    <StudentInfo client:load />
 
-      <div class="bg-white rounded-md w-[700px]">
-        <header class="pb-6 p-4 border-b-2 border-blue-500">
-          <h1 class="text-3xl">Perfil do Estudante 2022/2</h1>
-        </header>
+    <div class="bg-white rounded-md w-[700px]">
+      <header
+        class="pb-6 p-4 border-b-2 border-blue-500"
+      >
+        <h1 class="text-3xl">Perfil do Estudante 2022/2</h1>
+      </header>
 
-        <StudentProfile client:load />
-      </div>
+      <StudentProfile client:load />
     </div>
-  </main>
-</Layout>
+  </div>
+</MainLayout>
 
 <style>
   .form-row {

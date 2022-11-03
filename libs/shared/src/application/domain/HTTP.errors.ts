@@ -1,4 +1,4 @@
-export interface HTTPError {
+export interface HTTPError extends Error {
   name: string;
   status: number;
   message: string;

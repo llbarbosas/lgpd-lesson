@@ -2,7 +2,7 @@ import {
   http as httpConfig,
   authentication as authenticationConfig,
 } from "@config";
-import { AuthController } from "@application";
+import { AuthController, PassportController } from "@application";
 import {
   GenerateToken,
   InternalAuthorize,
@@ -131,7 +131,12 @@ export class HTTPServer {
       signInViewBuilder
     );
 
-    const router = new Router([authController]);
+    const passportController = new PassportController(
+      userRepository,
+      tokenSigner
+    );
+
+    const router = new Router([authController, passportController]);
 
     const publicFolderPath = join(__dirname, "public");
 

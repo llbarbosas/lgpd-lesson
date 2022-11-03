@@ -35,7 +35,7 @@ export class InternalAuthorize
     const { authorizationHeader, signInRequestId } = props;
 
     if (!authorizationHeader) {
-      return notOk(new Error("Authorization missing"));
+      return notOk(new Error('O header "Authorization" está failtando'));
     }
 
     const authorizationHeaderData = authorizationHeader.toString().split(" ");
@@ -53,7 +53,7 @@ export class InternalAuthorize
       const userResult = await this.userRepository.getOne({ username });
 
       if (userResult.isNotOk()) {
-        return notOk(new Error("Invalid user credentials"));
+        return notOk(new Error("As credenciais do usuário são inválidas"));
       }
 
       const passwordsMatch = this.passwordHasher
@@ -61,7 +61,7 @@ export class InternalAuthorize
         .mapNotOk(() => false).value;
 
       if (!passwordsMatch) {
-        return notOk(new Error("Invalid user credentials"));
+        return notOk(new Error("As credenciais do usuário são inválidas"));
       }
 
       const accessTokenResult = await this.generateToken.execute({
@@ -74,7 +74,9 @@ export class InternalAuthorize
 
       if (accessTokenResult.isNotOk()) {
         return notOk(
-          new Error("Authentication failed", { cause: accessTokenResult.value })
+          new Error("Falha na produção do token", {
+            cause: accessTokenResult.value,
+          })
         );
       }
 
@@ -88,12 +90,12 @@ export class InternalAuthorize
         accessTokenDataResult.isNotOk() ||
         accessTokenDataResult.value.subject === undefined
       ) {
-        return notOk(new Error("Invalid access token"));
+        return notOk(new Error("Token inválido"));
       }
 
       userId = accessTokenDataResult.value.subject;
     } else {
-      return notOk(new Error("Invalid authorization"));
+      return notOk(new Error('Header "Authorization" inválido'));
     }
 
     const authorizationRequestResult =
@@ -102,7 +104,7 @@ export class InternalAuthorize
       });
 
     if (authorizationRequestResult.isNotOk()) {
-      return notOk(new Error("Invalid request"));
+      return notOk(new Error("Requisição de login inválida"));
     }
 
     const authorizationRequestUpdateResult =
@@ -112,7 +114,7 @@ export class InternalAuthorize
       );
 
     if (authorizationRequestUpdateResult.isNotOk()) {
-      return notOk(new Error("Server error"));
+      return notOk(new Error("Não foi possível autorizar o token"));
     }
 
     return ok({ accessToken });
