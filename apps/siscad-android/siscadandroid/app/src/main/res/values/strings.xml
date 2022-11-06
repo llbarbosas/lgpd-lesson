@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">siscadandroid</string>
+    <!-- Strings related to login -->
+    <string name="prompt_passport">Passaporte UFMS</string>
+    <string name="prompt_password">Senha</string>
+    <string name="action_sign_in">Acessar</string>
+    <string name="action_sign_in_short">Acessar</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="received">Compartilhados comigo</string>
+    <string name="sent">Compartilhamentos</string>
+    <string name="users_shared_profiles_count">Perfis compartilhados com você.</string>
+    <string name="login_failed">"Falha no login"</string>
+</resources>
