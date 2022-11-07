@@ -22,6 +22,12 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            defaultConfig {
+                buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000/v1/\"")
+                buildConfigField("String", "CLIENT_ID", "\"746f9e8e-433a-4df0-8776-765e1681f5d3\"")
+                buildConfigField("String", "CLIENT_SECRET", "\"123456\"")
+            }
         }
     }
     compileOptions {
@@ -55,6 +61,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'androidx.security:security-crypto:1.0.0'
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

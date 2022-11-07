@@ -10,14 +10,15 @@ class LoginDataSource @Inject constructor(
     private val loginService: LoginService
 ) {
 
-    suspend fun login(passport: String, password: String): Result<LoginResponse> {
+    suspend fun login(username: String, password: String): Result<LoginResponse> {
         return try {
             val response = loginService.login(
-                LoginRequest(passport = passport, password = password)
+                LoginRequest(
+                    username = username,
+                    password = password
+                )
             ).body() ?: throw Throwable()
-            Result.Success(
-                response
-            )
+            Result.Success(response)
         } catch (e: Throwable) {
             Result.Error(IOException("Error logging in", e))
         }

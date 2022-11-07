@@ -2,10 +2,12 @@ package com.siscadandroid.ui.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -43,23 +45,25 @@ class LoginActivity : AppCompatActivity() {
             }
 
             btLogin.setOnClickListener {
-                navigateToHome()
-//                loading.isVisible = true
-//                loginViewModel.login(etUsername.text.toString(), etPassword.text.toString())
+                loginViewModel.login(
+                    etUsername.text.toString(),
+                    etPassword.text.toString()
+                )
+                loading.isVisible = true
             }
         }
     }
 
     private fun subscribeUi() {
-
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 loginViewModel.uiState.collect { uiState ->
                     when (uiState) {
                         is LoginUiState.Success -> {
-                            updateUiWithUser(uiState)
+                            navigateToHome()
                         }
                         is LoginUiState.Error -> {
+                            Log.d("erro", uiState.exception.message ?: "")
                             showLoginFailed(uiState.exception.message ?: "")
                         }
                         else -> {}

@@ -8,6 +8,7 @@
     <string name="welcome">"Welcome !"</string>
     <string name="received">Compartilhados comigo</string>
     <string name="sent">Compartilhamentos</string>
-    <string name="users_shared_profiles_count">Perfis compartilhados com você.</string>
+    <string name="profile_shares_sent">Seu cadastro está sendo compartilhado com:</string>
     <string name="login_failed">"Falha no login"</string>
+    <string name="profiles_shared_with_you">Estes cadastros foram compartilhados com você</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.siscadandroid.ui.home.sharedProfiles
+package com.siscadandroid.ui.home.sharesSent
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class UsersSharedProfilesFragment : Fragment() {
+class ProfileSharesSentFragment : Fragment() {
     private lateinit var binding: FragmentProfilesBinding
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val profilesListAdapter by lazy { ProfilesListAdapter(requireContext()) }
@@ -44,15 +44,13 @@ class UsersSharedProfilesFragment : Fragment() {
             LinearLayoutManager.VERTICAL,
             false
         )
+        tvTitle.text = getString(R.string.profile_shares_sent)
     }
 
     private fun subscribeUi() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 homeViewModel.homeUiState.collect { uiState ->
-                    binding.tvTitle.text = getString(
-                        R.string.profiles_shared_with_you
-                    )
                     profilesListAdapter.submitList(uiState.usersSharedProfilesList)
                 }
             }
