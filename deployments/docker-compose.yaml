@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  passport:
+    container_name: lgpd-passport
+    build:
+      context: ../
+      dockerfile: ./deployments/passport/Dockerfile
+    env_file:
+      - ./passport/.env.dev
+    ports:
+      - "3000:3000"
+  siscad-api:
+    container_name: lgpd-siscad-api
+    build:
+      context: ../
+      dockerfile: ./deployments/siscad-api/Dockerfile
+    env_file:
+      - ./siscad-api/.env.dev
+    ports:
+      - "3001:3001"
+    depends_on:
+      - passport
+  siscad-web:
+    container_name: lgpd-siscad-web
+    build:
+      context: ../
+      dockerfile: ./deployments/siscad-web/Dockerfile
+    env_file:
+      - ./siscad-web/.env.dev
+    ports:
+      - "8080:8080"
+    depends_on:
+      - siscad-api

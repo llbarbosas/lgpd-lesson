@@ -1,0 +1,11 @@
+https://localhost:3000 {
+    reverse_proxy http://passport:3000
+}
+
+https://localhost:3001 {
+    reverse_proxy http://siscad-api:3001
+}
+
+localhost {
+    reverse_proxy siscad-web:80
+}

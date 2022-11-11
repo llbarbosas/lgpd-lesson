@@ -52,7 +52,8 @@ export class HTTPServer {
     const requestStudentProfileAccess = new RequestStudentProfileAccess(
       studentProfileRepository,
       userRepository,
-      mailer
+      mailer,
+      httpConfig.apiUrl
     );
     const submitStudentProfile = new SubmitStudentProfile(
       studentProfileRepository,

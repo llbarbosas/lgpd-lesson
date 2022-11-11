@@ -33,8 +33,8 @@ export function OAuthCallback() {
 
     getTokenAuthorizationCode(code, codeVerifier).then(
       (accessTokenResponse) => {
-        if (accessTokenResponse.error) {
-          setOauthError(accessTokenResponse.message);
+        if ((accessTokenResponse as any).error) {
+          setOauthError((accessTokenResponse as any).message);
           return;
         }
 
@@ -49,7 +49,7 @@ export function OAuthCallback() {
     <>
       <header className="w-screen bg-[#313233] px-8 py-1 text-white text-sm font-light select-none">
         <span className="flex gap-2">
-          <i className="bi bi-bank"></i> Universidade Exemplar de Mato Grosso do
+          <i className="bi bi-bank"></i> Universidade Federal de Mato Grosso do
           Sul
         </span>
       </header>
