@@ -1,5 +1,7 @@
 package com.siscadandroid.data
 
+import com.siscadandroid.data.model.LoginRequest
+import com.siscadandroid.data.model.LoginResponse
 import java.io.IOException
 import javax.inject.Inject
 

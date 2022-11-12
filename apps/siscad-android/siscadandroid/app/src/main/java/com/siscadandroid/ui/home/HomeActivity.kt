@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.siscadandroid.R
 import com.siscadandroid.databinding.ActivityHomeBinding
-import com.siscadandroid.ui.home.sharedProfiles.UsersSharedProfilesFragment
+import com.siscadandroid.ui.home.sharedProfiles.ReceivedProfileSharesFragment
 import com.siscadandroid.ui.home.sharesSent.ProfileSharesSentFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,7 +44,7 @@ class HomeActivity : AppCompatActivity() {
     private fun showUsersShareProfilesFragment() {
         supportFragmentManager
             .beginTransaction()
-            .replace(R.id.fragmentContainer, UsersSharedProfilesFragment())
+            .replace(R.id.fragmentContainer, ReceivedProfileSharesFragment())
             .commit()
     }
 

@@ -1,6 +1,6 @@
 package com.siscadandroid.data
 
-import androidx.security.crypto.MasterKeys
+import com.siscadandroid.data.model.LoginResponse
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
@@ -10,7 +10,10 @@ import javax.inject.Inject
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-class LoginRepository @Inject constructor(val dataSource: LoginDataSource) {
+class LoginRepository @Inject constructor(
+    private val dataSource: LoginDataSource,
+    private val siscadEncryptedSharedPreferences: SiscadEncryptedSharedPreferences
+) {
 
     // in-memory cache of the loggedInUser object
     var user: LoginResponse? = null
@@ -20,9 +23,8 @@ class LoginRepository @Inject constructor(val dataSource: LoginDataSource) {
         get() = user != null
 
     init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
-        user = null
+        siscadEncryptedSharedPreferences.getValue("accessToken")
+            ?.let { setLoggedInUser(LoginResponse(it)) }
     }
 
     fun logout() {
@@ -39,13 +41,8 @@ class LoginRepository @Inject constructor(val dataSource: LoginDataSource) {
     }
 
     private fun setLoggedInUser(loggedInUser: LoginResponse) {
-        // Although you can define your own key generation parameter specification, it's
-        // recommended that you use the value specified here.
-        val keyGenParameterSpec = MasterKeys.AES256_GCM_SPEC
-        val masterKeyAlias = MasterKeys.getOrCreate(keyGenParameterSpec)
+        siscadEncryptedSharedPreferences.setValue("accessToken", loggedInUser.accessToken)
 
         this.user = loggedInUser
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
     }
 }

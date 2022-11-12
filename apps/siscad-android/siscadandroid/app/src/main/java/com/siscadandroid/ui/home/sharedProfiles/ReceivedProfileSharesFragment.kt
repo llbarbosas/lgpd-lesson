@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class UsersSharedProfilesFragment : Fragment() {
+class ReceivedProfileSharesFragment : Fragment() {
     private lateinit var binding: FragmentProfilesBinding
     private val homeViewModel: HomeViewModel by activityViewModels()
     private val profilesListAdapter by lazy { ProfilesListAdapter(requireContext()) }
