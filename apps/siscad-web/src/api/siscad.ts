@@ -1,6 +1,7 @@
 import type { StudentProfile, StudentProfileAccess } from "@lgpd-lesson/shared";
 
-const SISCAD_API_URL = "http://localhost:3001/v1";
+export const SISCAD_API_URL =
+  import.meta.env.SISCAD_API_URL ?? "http://localhost:3001/v1";
 
 export const getStudentProfileInfo = ({
   accessToken,

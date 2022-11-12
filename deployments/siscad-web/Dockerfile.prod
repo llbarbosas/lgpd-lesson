@@ -1,0 +1,19 @@
+FROM node:16-alpine as build
+
+WORKDIR /project
+
+COPY package.json yarn.lock .yarn .yarnrc.yml .
+COPY .yarn .yarn
+COPY apps/siscad-web/package.json apps/siscad-web/package.json
+
+RUN yarn install
+
+COPY apps/siscad-web/ apps/siscad-web/
+
+RUN yarn siscad-web:build
+
+FROM nginx as dev
+
+COPY --from="build" /project/apps/siscad-web/dist /usr/share/nginx/html
+
+EXPOSE 80

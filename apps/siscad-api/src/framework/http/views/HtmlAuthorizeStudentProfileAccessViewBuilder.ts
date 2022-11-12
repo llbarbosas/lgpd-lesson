@@ -6,7 +6,11 @@ export class HtmlAuthorizeStudentProfileAccessViewBuilder
   extends MustacheViewBuilder<{}>
   implements AuthorizeStudentProfileAccessViewBuilder
 {
-  constructor() {
+  constructor(private apiUrl: string) {
     super(join(__dirname, "authorize_student_profile_access.html"));
+  }
+
+  build(data: { userId: string; studentProfileId: string }): string {
+    return super.build({ ...data, apiUrl: this.apiUrl });
   }
 }

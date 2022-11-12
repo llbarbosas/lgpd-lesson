@@ -12,6 +12,7 @@ import {
   getStudentProfile,
   getStudentProfileFields,
   getStudentProfileInfo,
+  submitStudentProfile,
 } from "../../api/siscad";
 import { formDataToObject } from "../../util/formData";
 
@@ -128,23 +129,15 @@ export function StudentProfileForm(props: {
 
       const accessToken = getAccessToken();
 
-      fetch("http://localhost:3001/v1/profiles", {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          password,
-          student_profile: studentProfile,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (!data.error) {
-            window.location.reload();
-          }
-        });
+      submitStudentProfile({
+        accessToken,
+        studentProfile,
+        password,
+      }).then((data) => {
+        if (!data.error) {
+          window.location.reload();
+        }
+      });
     },
     []
   );

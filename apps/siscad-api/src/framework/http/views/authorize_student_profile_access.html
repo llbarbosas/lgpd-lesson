@@ -52,7 +52,7 @@
       const formData = new FormData(event.target);
 
       fetch(
-        `http://localhost:3001/v1/profiles/${formData.get(
+        `{{apiUrl}}/profiles/${formData.get(
           "student_profile_id"
         )}/authorize?user_id=${formData.get("user_id")}`,
         {

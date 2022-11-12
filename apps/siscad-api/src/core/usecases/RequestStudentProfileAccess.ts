@@ -22,7 +22,8 @@ export class RequestStudentProfileAccess
   constructor(
     private studentProfileRespository: StudentProfileRepository,
     private userRepository: UserRepository,
-    private mailer: Mailer
+    private mailer: Mailer,
+    private apiUrl: string
   ) {}
 
   async execute({
@@ -100,7 +101,7 @@ export class RequestStudentProfileAccess
     const authorizeAccessEmailResult = await this.mailer.sendMail({
       to: studentUserResult.value.email,
       subject: "Autorização de Acesso ao seu Cadastro Universitário",
-      body: `${requestingAuthorizationUserResult.value.fullname} deseja acessar seu cadastro universitário para "${usageIntention}". Para autorizar o acesso, clique neste link: http://localhost:3001/v1/profiles/${studentProfileResult.value.id}/authorize?user_id=${userId}`,
+      body: `${requestingAuthorizationUserResult.value.fullname} deseja acessar seu cadastro universitário para "${usageIntention}". Para autorizar o acesso, clique neste link: ${this.apiUrl}/profiles/${studentProfileResult.value.id}/authorize?user_id=${userId}`,
     });
 
     if (authorizeAccessEmailResult.isNotOk()) {

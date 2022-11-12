@@ -2,13 +2,18 @@
   "name": "lgpd-lesson",
   "version": "1.0.0",
   "private": true,
-  "workspaces": ["apps/*", "libs/*"],
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
   "scripts": {
+    "shared:build": "yarn workspace @lgpd-lesson/shared build",
     "passport:start": "yarn workspace @lgpd-lesson/passport start",
     "passport:dev": "yarn workspace @lgpd-lesson/passport dev",
     "siscad-api:start": "yarn workspace @lgpd-lesson/siscad-api start",
     "siscad-api:dev": "yarn workspace @lgpd-lesson/siscad-api dev",
-    "siscad-web:start": "yarn workspace @lgpd-lesson/siscad-web start",
-    "siscad-web:dev": "yarn workspace @lgpd-lesson/siscad-web dev"
-  }
+    "siscad-web:dev": "yarn workspace @lgpd-lesson/siscad-web dev",
+    "siscad-web:build": "yarn workspace @lgpd-lesson/siscad-web build"
+  },
+  "packageManager": "yarn@3.2.4"
 }
