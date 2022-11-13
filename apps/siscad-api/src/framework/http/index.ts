@@ -62,11 +62,12 @@ export class HTTPServer {
       cryptoFunctions
     );
     const listStudentProfiles = new ListStudentProfiles(
-      studentProfileRepository
+      studentProfileRepository,
+      userRepository
     );
 
     const authorizeStudentProfileAccessViewBuilder =
-      new HtmlAuthorizeStudentProfileAccessViewBuilder();
+      new HtmlAuthorizeStudentProfileAccessViewBuilder(httpConfig.apiUrl);
 
     const studentProfileController = new StudentProfileController(
       submitStudentProfile,

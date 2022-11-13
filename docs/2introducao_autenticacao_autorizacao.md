@@ -10,7 +10,7 @@
 
 Você já deve ter percebido que aplicações utilizamos no nosso dia a dia, como [Google](https://developers.google.com/identity/protocols/oauth2), [GitHub](https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps), e recentemente até mesmo o [Gov.br](https://www.gov.br/governodigital/pt-br/conta-gov-br/conta-gov-br/) possuem um mecanismo de login bastante curioso.
 
-![GitHub OAuth](./.assets/github-oauth.png)
+![GitHub OAuth](./.assets/github_oauth.png)
 ![Gov.br OAuth](./.assets/govbr_oauth.png)
 
 Estes serviços permitem que você utilize sua conta em serviços próprios ou de terceiros sem precisar digitar suas credenciais diretamente neles, sempre lhe informando quais dados seus serão compartilhados com estes terceiros e solicitando sua autorização para tanto.
@@ -40,7 +40,11 @@ Neste projeto iremos ilustrar a implementação de um login único na UFMS, que,
 ![Login SISCAD](./.assets/login_siscad.png)
 ![Login AVA](./.assets/login_ava.png)
 
-### Navegação
+<div align="right">
 
-- Anterior
-- [Próximo (Desenvolvimento de uma aplicação distribuída de autorização)](./2desenvolvimento_aplicacao_autorizacao.md)
+#### Navegação
+
+[Anterior (Introdução à LGPD: Por que me preocupar?)](./1introducao_lgpd.md)
+[Próximo (Desenvolvimento de uma aplicação distribuída de autorização)](./3desenvolvimento_aplicacao_autorizacao.md)
+
+</div>
