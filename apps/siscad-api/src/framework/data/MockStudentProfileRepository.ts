@@ -60,13 +60,20 @@ export class MockStudentProfileRepository implements StudentProfileRepository {
     return `${studentProfileId}:${userId}`;
   }
 
-  async getAllProfileAccess(
-    query?: { userId?: string | undefined } | undefined
-  ): Promise<Result<StudentProfileAccess[], Error>> {
+  async getAllProfileAccess(query?: {
+    userId?: string;
+    studentProfileId?: string;
+  }): Promise<Result<StudentProfileAccess[], Error>> {
     return ok(
-      Object.values(this.repositoryData.profileAccess).filter(({ userId }) => {
-        return query?.userId ?? userId === query?.userId;
-      })
+      Object.values(this.repositoryData.profileAccess).filter(
+        ({ userId, studentProfileId }) => {
+          return (
+            (query?.userId !== undefined && userId === query.userId) ||
+            (query?.studentProfileId !== undefined &&
+              studentProfileId === query.studentProfileId)
+          );
+        }
+      )
     );
   }
 
