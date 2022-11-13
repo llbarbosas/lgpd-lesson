@@ -24,7 +24,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
             defaultConfig {
-                buildConfigField("String", "BASE_URL", "\"http://10.0.2.2:3000/v1/\"")
+                buildConfigField("String", "PASSPORT_API_BASE_URL", "\"http://10.0.2.2:3000/v1/\"")
+                buildConfigField("String", "SISCAD_API_BASE_URL", "\"http://10.0.2.2:3001/v1/\"")
                 buildConfigField("String", "CLIENT_ID", "\"746f9e8e-433a-4df0-8776-765e1681f5d3\"")
                 buildConfigField("String", "CLIENT_SECRET", "\"123456\"")
             }

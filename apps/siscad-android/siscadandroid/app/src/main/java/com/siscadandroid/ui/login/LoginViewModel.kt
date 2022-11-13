@@ -2,7 +2,7 @@ package com.siscadandroid.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.siscadandroid.data.LoginRepository
+import com.siscadandroid.data.repositories.PassportRepository
 import com.siscadandroid.data.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginRepository: LoginRepository
+    private val passportRepository: PassportRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow<LoginUiState?>(null)
 
@@ -20,7 +20,7 @@ class LoginViewModel @Inject constructor(
 
     fun login(username: String, password: String) {
         viewModelScope.launch {
-            loginRepository.login(username, password)
+            passportRepository.login(username, password)
                 .collect { loginResult ->
                     _uiState.value = when (loginResult) {
                         is Result.Success -> LoginUiState.Success(

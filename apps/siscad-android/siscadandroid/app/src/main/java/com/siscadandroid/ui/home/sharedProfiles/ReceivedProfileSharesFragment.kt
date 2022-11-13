@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -38,6 +40,12 @@ class ReceivedProfileSharesFragment : Fragment() {
     }
 
     private fun setupUi() = with(binding) {
+        etUsername.doOnTextChanged { text, _, _, _ ->
+            binding.btRequestSharing.isEnabled = !text.isNullOrBlank()
+        }
+        btRequestSharing.setOnClickListener {
+            homeViewModel.requestProfileAccess(etUsername.text.toString())
+        }
         rvProfilesList.adapter = profilesListAdapter
         rvProfilesList.layoutManager = LinearLayoutManager(
             requireContext(),
@@ -50,10 +58,20 @@ class ReceivedProfileSharesFragment : Fragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 homeViewModel.homeUiState.collect { uiState ->
+                    if (uiState.accessRequestedMessage != null) {
+                        Toast.makeText(
+                            requireContext(),
+                            uiState.accessRequestedMessage,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        homeViewModel.clearAccessRequestedMessage()
+                    }
                     binding.tvTitle.text = getString(
                         R.string.profiles_shared_with_you
                     )
-                    profilesListAdapter.submitList(uiState.usersSharedProfilesList)
+                    profilesListAdapter.submitList(
+                        uiState.profileInformationResponse?.profilesShared?.map { it.studentProfileId }
+                    )
                 }
             }
         }
