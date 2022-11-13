@@ -4,7 +4,7 @@
 
 ## lgpd-lesson
 
-Projeto de AoE para introdução aos temas de autenticação, autorização e proteção de dados pessoais.
+Projeto de AoE de introdução á técnicas de segurança voltadas à proteção de dados pessoais.
 
 </div>
 
@@ -30,21 +30,21 @@ Este projeto de Atividades Orientadas de Ensino (AoE) visa prover uma introduç�
 
 ### Atividades desenvolvidas
 
+##### Introdução à LGPD e técnicas para sua implementação
+
+- Desenvolvimento de uma introdução textual à LGPD;
+- Desenvolvimento de uma introdução textual à mecanismos de _tratamento_ (coleta, armazenamento, acesso e compartilhamento seguro) de dados pessoais sensíveis;
+
 ##### Autenticação e autorização
 
 - Desenvolvimento de uma introdução textual aos conceitos de autenticação e autorização e sua diferenciação;
 - Desenvolvimento de uma aplicação distribuída de autorização;
 
-##### Proteção dos dados
-
-- Desenvolvimento de uma introdução textual à LGPD;
-- Desenvolvimento de uma introdução textual à mecanismos de coleta, armazenamento, acesso e compartilhamento seguro (CAAC) de dados sensíveis do usuário;
-
 ###### Proteção dos dados na web
 
-- Desenvolvimento de uma aplicação cliente web que utiliza protocolos de autorização e aplica mecanismos de CAAC de dados sensíveis do usuário;
+- Desenvolvimento de uma aplicação web que utiliza protocolos de autorização e aplica mecanismos de _tratamento_ de dados pessoais sensíveis;
 
 ###### Proteção dos dados no mobile
 
-- Desenvolvimento de uma introdução textual à tecnicas de CAAC para aplicações mobile;
-- Desenvolvimento de uma aplicação cliente mobile Android nativa que utiliza protocolos de autorização e aplica mecanismos de CAAC de dados sensíveis do usuário
+- Desenvolvimento de uma introdução textual à tecnicas de _tratamento_ de dados pessoais para aplicações mobile;
+- Desenvolvimento de uma aplicação mobile Android nativa que utiliza protocolos de autorização e aplica mecanismos de _tratamento_ de dados pessoais sensíveis.
