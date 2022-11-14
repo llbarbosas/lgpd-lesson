@@ -12,3 +12,9 @@ Neste projeto iremos ilustrar a implementação de uma aplicação distribuída 
 
 ![SISCAD SSO](./.assets/siscad_sso.png)
 ![PASSPORT SSO](./.assets/./passport_sso.png)
+
+O código fonte do back-end está disponível em [apps/passport](/apps/passport/), e o do front-end está disponível em [apps/siscad-web](/apps/siscad-web/).
+
+Esta aplicação se utiliza do protocolo [OAuth 2.0](https://www.rfc-editor.org/rfc/rfc6749), e a estrutura das rotas foi inspirada na API do [auth0 by Okta](https://auth0.com/docs/api/authentication).
+
+A documentação das rotas foi feita com a ferramenta Postman e pode ser encontrada em [docs/api](/docs/api/).

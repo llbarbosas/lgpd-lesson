@@ -163,3 +163,6 @@ A seguir, é descrito um método para a realização da criptografia dos dados d
 >
 > const maritalStatus = decryptSymmetric(encryptedMaritalStatus, symmetricKey);
 > ```
+
+![SISCAD web preenchimento do cadastro](./.assets/siscad_web1.png)
+![SISCAD web senha](./.assets/siscad_web2.png)
