@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">siscadandroid</string>
+    <!-- Strings related to login -->
+    <string name="prompt_passport">Passaporte UFMS</string>
+    <string name="prompt_password">Senha</string>
+    <string name="action_sign_in">Acessar</string>
+    <string name="action_confirm_share">Confirmar</string>
+    <string name="action_type_your_password">Digite sua senha para confirmar o compartilhamento</string>
+    <string name="action_request_share">Solicitar acesso</string>
+    <string name="action_sign_in_short">Acessar</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="received">Compartilhados comigo</string>
+    <string name="sent">Compartilhamentos</string>
+    <string name="profile_shares_sent">Seu cadastro está sendo compartilhado com:</string>
+    <string name="login_failed">"Falha no login"</string>
+    <string name="profiles_shared_with_you">Estes cadastros foram compartilhados com você</string>
+    <string name="profile_access_requested_title">Estas pessoas solicitaram acesso ao seu perfil:</string>
+</resources>
