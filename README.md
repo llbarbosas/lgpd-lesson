@@ -33,7 +33,7 @@ Este projeto de Atividades Orientadas de Ensino (AoE) visa prover uma introduç�
 ##### Introdução à LGPD e técnicas para sua implementação
 
 - Desenvolvimento de uma introdução textual à LGPD;
-- Desenvolvimento de uma introdução textual à mecanismos de _tratamento_ (coleta, armazenamento, acesso e compartilhamento seguro) de dados pessoais sensíveis;
+- Desenvolvimento de uma introdução textual à mecanismos de _tratamento_ (coleta, armazenamento, acesso e compartilhamento seguro) de dados pessoais;
 
 ##### Autenticação e autorização
 
@@ -42,9 +42,9 @@ Este projeto de Atividades Orientadas de Ensino (AoE) visa prover uma introduç�
 
 ###### Proteção dos dados na web
 
-- Desenvolvimento de uma aplicação web que utiliza protocolos de autorização e aplica mecanismos de _tratamento_ de dados pessoais sensíveis;
+- Desenvolvimento de uma aplicação web que utiliza protocolos de autorização e aplica mecanismos de _tratamento_ de dados pessoais;
 
 ###### Proteção dos dados no mobile
 
 - Desenvolvimento de uma introdução textual à tecnicas de _tratamento_ de dados pessoais para aplicações mobile;
-- Desenvolvimento de uma aplicação mobile Android nativa que utiliza protocolos de autorização e aplica mecanismos de _tratamento_ de dados pessoais sensíveis.
+- Desenvolvimento de uma aplicação mobile Android nativa que utiliza protocolos de autorização e aplica mecanismos de _tratamento_ de dados pessoais.
