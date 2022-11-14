@@ -8,7 +8,7 @@ class ProfileRequestViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(requestModel: ProfileRequestModel) {
         with(binding) {
-            btUserPassport.text = requestModel.userPassport
+            btUserPassport.text = requestModel.userName
             btApproveRequest.setOnClickListener {
                 requestModel.approveRequestAction()
             }

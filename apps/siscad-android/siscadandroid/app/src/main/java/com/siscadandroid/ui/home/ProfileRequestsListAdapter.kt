@@ -9,8 +9,7 @@ import com.siscadandroid.databinding.ItemProfileRequestBinding
 
 data class ProfileRequestModel(
     val approveRequestAction: () -> Unit,
-    val userId: String,
-    val userPassport: String
+    val userName: String
 )
 
 class ProfileRequestsListAdapter(

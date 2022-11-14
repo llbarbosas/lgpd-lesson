@@ -20,7 +20,7 @@ interface SiscadService {
         @Body requestAccessResponse: RequestProfileAccessRequest
     ): Response<AccessResponse>
 
-    @POST("/profiles/{student_profile_id}/authorize")
+    @POST("profiles/{student_profile_id}/authorize")
     suspend fun authorizeAccess(
         @Header("password") userPassword: String,
         @Path("student_profile_id") currentStudentProfileId: String,

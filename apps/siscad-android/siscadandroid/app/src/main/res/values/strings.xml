@@ -4,6 +4,8 @@
     <string name="prompt_passport">Passaporte UFMS</string>
     <string name="prompt_password">Senha</string>
     <string name="action_sign_in">Acessar</string>
+    <string name="action_confirm_share">Confirmar</string>
+    <string name="action_type_your_password">Digite sua senha para confirmar o compartilhamento</string>
     <string name="action_request_share">Solicitar acesso</string>
     <string name="action_sign_in_short">Acessar</string>
     <string name="welcome">"Welcome !"</string>

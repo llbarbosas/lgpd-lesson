@@ -70,7 +70,9 @@ class ReceivedProfileSharesFragment : Fragment() {
                         R.string.profiles_shared_with_you
                     )
                     profilesListAdapter.submitList(
-                        uiState.profileInformationResponse?.profilesShared?.map { it.studentProfileId }
+                        uiState.profileInformationResponse?.profileSharesReceived?.map {
+                            it.senderUsername
+                        }
                     )
                 }
             }

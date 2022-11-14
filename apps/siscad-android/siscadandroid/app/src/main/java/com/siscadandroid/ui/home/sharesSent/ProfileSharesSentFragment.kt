@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.siscadandroid.R
+import com.siscadandroid.data.model.ShareStatus
 import com.siscadandroid.databinding.FragmentProfileSharedWithBinding
 import com.siscadandroid.ui.home.HomeViewModel
 import com.siscadandroid.ui.home.ProfileRequestModel
@@ -70,24 +71,23 @@ class ProfileSharesSentFragment : Fragment() {
                         homeViewModel.clearAccessRequestedMessage()
                     }
                     requestsListAdapter.submitList(
-                        //TODO(Usar array profileSharedWith)
-                        uiState.profileInformationResponse?.profilesShared?.filter { !it.shared }
+                        uiState.profileInformationResponse?.profileSharesSent?.filter {
+                            it.status == ShareStatus.REQUESTED
+                        }
                             ?.map {
                                 ProfileRequestModel(
                                     approveRequestAction = {
-                                        homeViewModel.authorizeProfileAccess(
-                                            requesterUserId = it.userId
-                                        )
+                                        ConfirmShareDialogFragment.newInstance(it.receiverId)
+                                            .show(parentFragmentManager, "confirmDialog")
                                     },
-                                    userId = it.userId,
-                                    //TODO(trocar studentProfileId por passport)
-                                    userPassport = it.studentProfileId
+                                    userName = it.receiverUsername
                                 )
                             }
                     )
                     profilesListAdapter.submitList(
-                        uiState.profileInformationResponse?.profilesShared?.filter { it.shared }
-                            ?.map { it.studentProfileId }
+                        uiState.profileInformationResponse?.profileSharesSent?.filter {
+                            it.status == ShareStatus.AUTHORIZED
+                        }?.map { it.receiverUsername }
                     )
                 }
             }

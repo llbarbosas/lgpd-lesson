@@ -35,9 +35,9 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    fun requestProfileAccess(passport: String) {
+    fun requestProfileAccess(userName: String) {
         viewModelScope.launch {
-            siscadRepository.requestAccess(passport).collect { requestAccessResponse ->
+            siscadRepository.requestAccess(userName).collect { requestAccessResponse ->
                 _homeUiState.value = when (requestAccessResponse) {
                     is Result.Success -> _homeUiState.value.copy(
                         accessRequestedMessage = "Acesso solicitado com sucesso"
@@ -50,10 +50,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun authorizeProfileAccess(password: String = "789", requesterUserId: String) {
+    fun authorizeProfileAccess(password: String, requesterUserId: String) {
         viewModelScope.launch {
             siscadRepository.authorizeAccess(
-                password = "78910",
+                password = password,
                 requesterUserId = requesterUserId,
                 currentStudentProfileId = _homeUiState.value.profileInformationResponse?.profile?.id ?: ""
             ).collect { requestAccessResponse ->

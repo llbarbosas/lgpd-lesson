@@ -16,11 +16,11 @@ class SiscadRepository @Inject constructor(
         emit(dataSource.getProfiles())
     }
 
-    suspend fun requestAccess(passport: String): Flow<Result<AccessResponse>> = flow {
+    suspend fun requestAccess(senderUserName: String): Flow<Result<AccessResponse>> = flow {
         emit(
             dataSource.requestAccess(
                 requestProfileAccessRequest = RequestProfileAccessRequest(
-                    passport = passport
+                    userName = senderUserName
                 )
             )
         )
