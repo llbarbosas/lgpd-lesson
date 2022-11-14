@@ -166,3 +166,20 @@ A seguir, é descrito um método para a realização da criptografia dos dados d
 
 ![SISCAD web preenchimento do cadastro](./.assets/siscad_web1.png)
 ![SISCAD web senha](./.assets/siscad_web2.png)
+
+#### Utilização da aplicação
+
+Para rodar a aplicação, é preciso ter o NodeJS na v16 ou maior, e o yarn na versão v1.22.19 ou maior.
+
+A execução da aplicação é feita através dos seguintes comandos:
+
+```sh
+# Inicia o back-end do passaporte
+yarn passport:dev
+
+# Inicia o back-end do siscad
+yarn siscad-api:dev
+
+# Inicia o front-end do siscad
+yarn siscad-web:dev
+```
