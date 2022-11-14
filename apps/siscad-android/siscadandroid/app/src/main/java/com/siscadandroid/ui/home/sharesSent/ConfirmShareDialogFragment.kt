@@ -22,6 +22,7 @@ class ConfirmShareDialogFragment : DialogFragment() {
                 requesterUserId = receiverId,
                 password = binding.etPassword.text.toString()
             )
+            dismiss()
         }
         return AlertDialog.Builder(activity).setView(binding.root).create()
     }
