@@ -24,3 +24,6 @@ Foi utilizada a biblioteca EncryptedSharedPreferences, que é uma implementaçã
 
 Além disso, foi realizada a ofuscação do código utilizando o próprio compilador do android através do arquivo build.gradle, como mostrado a seguir: 
 ![OfuscacaoDoCodigo](https://user-images.githubusercontent.com/36047428/201571168-2b292456-cd74-4123-a6ef-0e87164782e1.png)
+
+# Como rodar o projeto
+Para rodar o projeto basta ter instalado o android studio e ter seguido os passos de execução da api descritos no documento "Desenvolvimento de uma aplicação web que realiza tratamento de dados pessoais sensíveis".
