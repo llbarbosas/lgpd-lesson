@@ -10,11 +10,11 @@
 
 Aplicações front-end web estão cada vez mais populares e presentes no dia a dia dos usuários. Hoje, é bastente comum substituírmos uma suíte office nativa por suas alternativas em nuvem. Não obstante, essas aplicações também estão cada vez mais capazes de realizar coisas que antes eram realizados por aplicações desktop, como reflete o site [What Web Can do Today?](https://whatwebcando.today/), que demonstra uma série de capacidades que os chamados PWAs (Progressive Web App) têm acesso através de seu navegador que antes eram consideradas apenas disponíveis em aplicações nativas. Mas, _com grandes poderes_ sempre _vêm grandes responsabilidades_.
 
-[Com grandes poderes vêm grandes responsabilidades (Ben, tio)](./.assets/uncle_ben.gif)
+![Com grandes poderes vêm grandes responsabilidades (Ben, tio)](./.assets/uncle_ben.gif)
 
 As aplicações que rodam nos nossos navegadores podem ser auditadas por qualquer usuário. Se você já desenvolveu alguma aplicação para a web, as _Ferramentas para Desenvolvedores_, presentes na maioria dos browsers modernos, devem ter sido suas companheiras na hora de debugar o código executado no navegador, ou visualizar as requisições feitas ao back-end.
 
-[Debugar seu site](./.assets/debug_chrome.jpg)
+![Debugar seu site](./.assets/debug_chrome.jpg)
 
 Essa peculiaridade nos impede de manipular informações sensíveis das nossas aplicações, como as API_KEYs de algum serviço utilizado, além de fazer necessário a aplicação de algumas medidas de segurança na manipulação dos dados do próprio usuário, uma vez que vulnerabilidades como XSS (Cross Site Scripting), roubo de cookies e comunicação HTTP sem criptografia ainda são bastante presentes, e podem levar ao acesso mal intencionado desses dados.
 
