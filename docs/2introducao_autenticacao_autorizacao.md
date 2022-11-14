@@ -39,12 +39,3 @@ Neste projeto iremos ilustrar a implementação de um login único na UFMS, que,
 
 ![Login SISCAD](./.assets/login_siscad.png)
 ![Login AVA](./.assets/login_ava.png)
-
-<div align="right">
-
-#### Navegação
-
-[Anterior (Introdução à LGPD: Por que me preocupar?)](./1introducao_lgpd.md)
-[Próximo (Desenvolvimento de uma aplicação distribuída de autorização)](./3desenvolvimento_aplicacao_autorizacao.md)
-
-</div>
